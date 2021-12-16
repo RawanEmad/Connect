@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Connect</string>
+    <string name="connect">connect</string>
+    <string name="online_calls_messaging_and_nvideo_conference_made_easy">Online calls, messaging and\nvideo conference made easy</string>
+    <string name="we_will_provide_all_best_ways_to_nconnect_easily_in_one_click">We will provide all best ways to\nconnect easily in one click</string>
+    <string name="join_for_free">Join for free</string>
+    <string name="login">login</string>
+    <string name="register">Register</string>
 </resources>

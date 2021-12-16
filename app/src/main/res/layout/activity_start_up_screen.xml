@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartUpScreenActivity"
+    android:background="@drawable/background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="70dp"
+            android:paddingBottom="36dp"
+            tools:context=".StartUpScreenActivity">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="90dp"
+                android:padding="5dp"
+                android:background="@drawable/logo_background"
+                android:src="@drawable/logo_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/app_name_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/righteous"
+                android:text="@string/connect"
+                android:textColor="@color/white"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+            <TextView
+                android:id="@+id/app_desc1_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/online_calls_messaging_and_nvideo_conference_made_easy"
+                android:textColor="@color/white_60"
+                android:textSize="20sp"
+                android:fontFamily="@font/red_hat_text_regular"
+                app:layout_constraintTop_toBottomOf="@id/app_name_text_view"/>
+
+            <TextView
+                android:id="@+id/app_desc2_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/we_will_provide_all_best_ways_to_nconnect_easily_in_one_click"
+                android:textColor="@color/white_40"
+                android:textSize="18sp"
+                android:fontFamily="@font/red_hat_text_regular"
+                app:layout_constraintTop_toBottomOf="@id/app_desc1_text_view" />
+
+            <TextView
+                android:id="@+id/app_desc3_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/join_for_free"
+                android:textColor="@color/white_80"
+                android:textSize="18sp"
+                android:fontFamily="@font/red_hat_text_bold"
+                app:layout_constraintTop_toBottomOf="@id/app_desc2_text_view" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/filled_button"
+                android:elevation="5dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/login"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:transitionName="transition_login"
+                app:layout_constraintTop_toBottomOf="@id/app_desc3_text_view" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/register_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/white_border"
+                android:elevation="5dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/register"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:transitionName="transition_register"
+                app:layout_constraintTop_toBottomOf="@id/login_btn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
