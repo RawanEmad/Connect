@@ -4,6 +4,159 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_lighter"
     tools:context=".OtpVerificationActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="45dp"
+            android:paddingBottom="36dp"
+            android:transitionName="transition_otp_verification"
+            tools:context=".OtpVerificationActivity">
+
+            <ImageView
+                android:id="@+id/otp_close_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_close_24"
+                android:contentDescription="@string/close_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/logo_background"
+                android:contentDescription="@string/app_logo"
+                android:padding="10dp"
+                android:src="@drawable/logo_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/verification_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/righteous"
+                android:text="@string/code_verification"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+            <ImageView
+                android:id="@+id/verification_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/authentication"
+                android:contentDescription="@string/verification_image_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/verification_text_view"/>
+
+            <TextView
+                android:id="@+id/otp_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/otp_text"
+                android:textStyle="normal"
+                android:textAlignment="center"
+                android:textColor="@color/white_70"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/verification_image_view" />
+
+            <TextView
+                android:id="@+id/phone_no_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto"
+                android:textStyle="bold"
+                android:text="@string/user_phone"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/otp_text_view" />
+
+            <com.chaos.view.PinView
+                android:id="@+id/pin_view"
+                style="@style/PinWidget.PinView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:cursorVisible="true"
+                android:inputType="number"
+                app:itemCount="6"
+                android:textColor="@color/white"
+                android:itemBackground="@color/white_20"
+                app:cursorColor="@color/white"
+                app:hideLineWhenFilled="true"
+                app:itemHeight="42dp"
+                app:itemRadius="7dp"
+                app:itemWidth="42dp"
+                app:layout_constraintBottom_toTopOf="@id/verify_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_no_text_view"
+                app:lineColor="@color/purple" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/verify_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/filled_button"
+                android:elevation="5dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/verify"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:transitionName="transition_login"
+                app:layout_constraintTop_toBottomOf="@+id/pin_view" />
+
+            <TextView
+                android:id="@+id/not_receive_code_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/red_hat_text_regular"
+                android:text="@string/didn_t_receive_a_code"
+                android:textAlignment="textEnd"
+                android:textColor="@color/white_70"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/resend_code_text_view"
+                app:layout_constraintTop_toBottomOf="@id/verify_btn"
+                app:layout_constraintWidth_percent="0.58" />
+
+            <TextView
+                android:id="@+id/resend_code_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/resend_code"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/not_receive_code_text_view"
+                app:layout_constraintTop_toBottomOf="@id/verify_btn"
+                app:layout_constraintWidth_percent="0.4" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

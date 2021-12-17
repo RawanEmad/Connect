@@ -8,14 +8,21 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_80">#CCFFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
     <color name="white_60">#99FFFFFF</color>
     <color name="white_50">#80FFFFFF</color>
     <color name="white_40">#66FFFFFF</color>
-    <color name="light_white">#f2f5f8</color>
+    <color name="white_20">#33FFFFFF</color>
+    <color name="light_white">#C4C4C4</color>
+    <color name="light_white_40">#66C4C4C4</color>
     <color name="transparent">#0000</color>
     <color name="purple">#421782</color>
     <color name="purple_lighter">#5E3594</color>
     <color name="purple_lighter_50">#805E3594</color>
     <color name="purple_50">#80421782</color>
     <color name="green">#3DA449</color>
+    <color name="green_80">#CC3DA449</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#66C4C4C4</color>
+
+
 </resources>

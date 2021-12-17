@@ -6,4 +6,27 @@
     <string name="join_for_free">Join for free</string>
     <string name="login">login</string>
     <string name="register">Register</string>
+    <string name="next">Next</string>
+    <string name="create_account">Create Account</string>
+    <string name="full_name">Full Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="gender">Gender</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="didn_t_have_an_account">Didn\'t have an account?</string>
+    <string name="create_one">Create one</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forget_password">Forget password</string>
+    <string name="app_logo">app logo</string>
+    <string name="user_phone">+201099122775</string>
+    <string name="otp_text">Please enter the verification\ncode sent to</string>
+    <string name="verify">Verify</string>
+    <string name="didn_t_receive_a_code">Didn\'t receive a code?</string>
+    <string name="resend_code">Resend code</string>
+    <string name="code_verification">Code Verification</string>
+    <string name="verification_image_view">verification image view</string>
+    <string name="back_button">back button</string>
+    <string name="close_button">close button</string>
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape android:shape="rectangle"
+<selector android:shape="rectangle"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <solid android:color="@color/green"/>
+    <item android:state_pressed="true" android:drawable="@drawable/filled_button_pressed"/>
+    <item android:state_pressed="false" android:drawable="@drawable/filled_button_normal"/>
 
-    <corners android:radius="10dp"/>
-</shape>
+</selector>
