@@ -23,10 +23,11 @@
                 android:id="@+id/otp_close_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_close_24"
                 android:contentDescription="@string/close_button"
+                android:padding="5dp"
+                android:src="@drawable/ic_baseline_close_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/logo"
@@ -58,11 +59,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/authentication"
                 android:contentDescription="@string/verification_image_view"
-                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/authentication"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/verification_text_view"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/verification_text_view" />
 
             <TextView
                 android:id="@+id/otp_text_view"
@@ -71,10 +72,10 @@
                 android:layout_marginTop="35dp"
                 android:fontFamily="@font/roboto"
                 android:text="@string/otp_text"
-                android:textStyle="normal"
                 android:textAlignment="center"
                 android:textColor="@color/white_70"
                 android:textSize="16sp"
+                android:textStyle="normal"
                 app:layout_constraintTop_toBottomOf="@id/verification_image_view" />
 
             <TextView
@@ -82,14 +83,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:fontFamily="@font/roboto"
-                android:textStyle="bold"
+                android:fontFamily="@font/red_hat_text_bold"
                 android:text="@string/user_phone"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/otp_text_view" />
-
             <com.chaos.view.PinView
                 android:id="@+id/pin_view"
                 style="@style/PinWidget.PinView"
@@ -98,11 +98,11 @@
                 android:layout_margin="30dp"
                 android:cursorVisible="true"
                 android:inputType="number"
-                app:itemCount="6"
-                android:textColor="@color/white"
                 android:itemBackground="@color/white_20"
+                android:textColor="@color/white"
                 app:cursorColor="@color/white"
                 app:hideLineWhenFilled="true"
+                app:itemCount="6"
                 app:itemHeight="42dp"
                 app:itemRadius="7dp"
                 app:itemWidth="42dp"
@@ -111,6 +111,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_no_text_view"
                 app:lineColor="@color/purple" />
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/verify_btn"
