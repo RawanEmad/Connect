@@ -15,16 +15,18 @@
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable-v24/white_outline_button_normal.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable-v24/white_outline_button_pressed.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/arrow_back.xml" value="0.21944444444444444" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.1962962962962963" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_https_24.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_phone_24.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_gender_icon.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21944444444444444" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_transgender_solid_svgrepo_com.xml" value="0.1962962962962963" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/font/red_hat_text.xml" value="0.23796296296296296" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_login.xml" value="0.25025641025641027" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_main.xml" value="0.2388888888888889" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_otp_verification.xml" value="0.25025641025641027" />
-        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_register.xml" value="0.2" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_register.xml" value="0.264" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_start_up_screen.xml" value="0.264" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/gender_list_items.xml" value="0.25416666666666665" />
       </map>

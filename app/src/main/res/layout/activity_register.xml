@@ -161,7 +161,7 @@
                 android:hint="@string/gender"
                 app:endIconMode="dropdown_menu"
                 app:layout_constraintTop_toBottomOf="@+id/register_input_confirm_password"
-                app:startIconDrawable="@drawable/gender_icon">
+                app:startIconDrawable="@drawable/ic_gender_icon">
 
                 <AutoCompleteTextView
                     android:id="@+id/input_gender"

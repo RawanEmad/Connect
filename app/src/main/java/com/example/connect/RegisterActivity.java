@@ -58,14 +58,11 @@ public class RegisterActivity extends AppCompatActivity {
         mArrayAdapter.setDropDownViewResource(R.layout.gender_list_items);
         mGender.setAdapter(mArrayAdapter);
 
-        mGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mGender.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                _gender = adapterView.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                _gender = adapterView.getItemAtPosition(position).toString();
+                Toast.makeText(adapterView.getContext(), "You selected: " + _gender, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -177,6 +174,8 @@ public class RegisterActivity extends AppCompatActivity {
                 //Complete phone number
                 String _phoneNo = "+" + mCountryCodePicker.getSelectedCountryCode()
                         + _getUserEnteredPhoneNumber;
+
+
 
                 Intent intent = new Intent(RegisterActivity.this, OtpVerificationActivity.class);
 
