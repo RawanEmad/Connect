@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_lighter"
-    tools:context=".RegisterActivity">
+    tools:context=".users.ui.RegisterActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_margin="45dp"
             android:paddingBottom="36dp"
             android:transitionName="transition_register"
-            tools:context=".RegisterActivity">
+            tools:context=".users.ui.RegisterActivity">
 
             <ImageView
                 android:id="@+id/register_back_btn"

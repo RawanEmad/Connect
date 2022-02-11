@@ -1,4 +1,4 @@
-package com.example.connect;
+package com.example.connect.users.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.connect.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -163,7 +163,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 String _fullName = mFullName.getEditText().getText().toString();
                 String _password = mPassword.getEditText().getText().toString();
-                String _confirmPassword = mConfirmPassword.getEditText().getText().toString();
 
                 //Get complete phone number
                 String _getUserEnteredPhoneNumber = Objects.requireNonNull(mPhoneNumber.getEditText()).getText().toString().trim();
@@ -172,10 +171,8 @@ public class RegisterActivity extends AppCompatActivity {
                     _getUserEnteredPhoneNumber = _getUserEnteredPhoneNumber.substring(1);
                 }
                 //Complete phone number
-                String _phoneNo = "+" + mCountryCodePicker.getSelectedCountryCode()
+                String _phoneNo = mCountryCodePicker.getSelectedCountryCode()
                         + _getUserEnteredPhoneNumber;
-
-
 
                 Intent intent = new Intent(RegisterActivity.this, OtpVerificationActivity.class);
 
@@ -183,7 +180,6 @@ public class RegisterActivity extends AppCompatActivity {
                 intent.putExtra("fullName", _fullName);
                 intent.putExtra("phoneNo", _phoneNo);
                 intent.putExtra("password", _password);
-                intent.putExtra("confirmPassword", _confirmPassword);
                 intent.putExtra("gender", _gender);
 
                 startActivity(intent);

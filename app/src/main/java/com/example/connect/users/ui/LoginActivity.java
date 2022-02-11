@@ -1,4 +1,4 @@
-package com.example.connect;
+package com.example.connect.users.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,10 +9,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.connect.MainActivity;
+import com.example.connect.R;
+import com.example.connect.users.LoginRequest;
+import com.example.connect.users.LoginResponse;
+import com.example.connect.users.RegisterRequest;
+import com.example.connect.users.RegisterResponse;
+import com.example.connect.users.api.UsersApiClient;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,6 +36,10 @@ public class LoginActivity extends AppCompatActivity {
 
     //data variables
     private TextInputLayout mPhoneNo, mPassword;
+
+    //API KEY
+    private final static String API_KEY = "382395e75d624fb1478303451bc7543314ffffac6372c2aa9beb22f687e6e886b77b3ee84aeeb1a8aabad9647686d0baaa4d9a7c65ff6ef1ebc71fcde7bac14b";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +87,28 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void loginUser(LoginRequest loginRequest) {
+        Call<LoginResponse> loginResponseCall = UsersApiClient.getService().loginUser(loginRequest, API_KEY);
+        loginResponseCall.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Login Not Completed! Try again.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void callMainScreen() {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +118,14 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 } //Validation succeeded and now move to next screen
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                String _phoneNumber = Objects.requireNonNull(mPhoneNo.getEditText()).getText().toString().trim();
+                String _password = Objects.requireNonNull(mPassword.getEditText()).getText().toString().trim();
+
+                LoginRequest loginRequest = new LoginRequest();
+                loginRequest.setPhoneNo(_phoneNumber);
+                loginRequest.setPassword(_password);
+
+                loginUser(loginRequest);
             }
         });
     }

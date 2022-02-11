@@ -1,4 +1,4 @@
-package com.example.connect;
+package com.example.connect.users.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaos.view.PinView;
+import com.example.connect.MainActivity;
+import com.example.connect.R;
+import com.example.connect.users.RegisterRequest;
+import com.example.connect.users.RegisterResponse;
+import com.example.connect.users.api.UsersApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -25,6 +30,10 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class OtpVerificationActivity extends AppCompatActivity {
 
     //variables
@@ -34,7 +43,10 @@ public class OtpVerificationActivity extends AppCompatActivity {
     //data variables
     private PinView mPinView;
     private String codeBySystem;
-    String fullName, phoneNo, password, confirmPassword, gender;
+    String fullName, phoneNo, password, gender;
+
+    //API KEY
+    private final static String API_KEY = "382395e75d624fb1478303451bc7543314ffffac6372c2aa9beb22f687e6e886b77b3ee84aeeb1a8aabad9647686d0baaa4d9a7c65ff6ef1ebc71fcde7bac14b";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +65,15 @@ public class OtpVerificationActivity extends AppCompatActivity {
         fullName = getIntent().getStringExtra("fullName");
         phoneNo = getIntent().getStringExtra("phoneNo");
         password = getIntent().getStringExtra("password");
-        confirmPassword = getIntent().getStringExtra("confirmPassword");
         gender = getIntent().getStringExtra("gender");
 
-        userPhoneText.setText(phoneNo);
+        String completePhoneNo = "+" + phoneNo;
+
+        userPhoneText.setText(completePhoneNo);
 
         callRegisterScreen();
         callMainScreen();
-        sendVerificationCodeToUser(phoneNo);
+        sendVerificationCodeToUser(completePhoneNo);
     }
 
     private void sendVerificationCodeToUser(String phoneNo) {
@@ -113,8 +126,17 @@ public class OtpVerificationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //Verification completed successfully here Either
-                            // store the data or do whatever desire
-                            //storeNewUsersData();
+                            //store the data or do whatever desire
+                            RegisterRequest registerRequest = new RegisterRequest();
+                            registerRequest.setFullName(fullName);
+                            registerRequest.setPhoneNo(phoneNo);
+                            registerRequest.setPassword(password);
+                            registerRequest.setGender(gender);
+
+                            registerUser(registerRequest);
+
+                            // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(OtpVerificationActivity.this, "signInWithCredential:success.", Toast.LENGTH_SHORT).show();
                         } else {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(OtpVerificationActivity.this, "Verification Not Completed! Try again.", Toast.LENGTH_SHORT).show();
@@ -122,6 +144,28 @@ public class OtpVerificationActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void registerUser(RegisterRequest registerRequest) {
+        Call<RegisterResponse> registerResponseCall = UsersApiClient.getService().registerUser(registerRequest, API_KEY);
+        registerResponseCall.enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(OtpVerificationActivity.this, "Successful Registration", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(OtpVerificationActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(OtpVerificationActivity.this, "Registration Not Completed! Try again.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                Toast.makeText(OtpVerificationActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void callRegisterScreen() {
@@ -141,8 +185,8 @@ public class OtpVerificationActivity extends AppCompatActivity {
                 String code = Objects.requireNonNull(mPinView.getText()).toString();
                 if (!code.isEmpty()) {
                     verifyCode(code);
-                    Intent intent = new Intent(OtpVerificationActivity.this, MainActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(OtpVerificationActivity.this, MainActivity.class);
+//                    startActivity(intent);
                 }
             }
         });

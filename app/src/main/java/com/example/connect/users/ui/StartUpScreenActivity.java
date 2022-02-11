@@ -1,4 +1,4 @@
-package com.example.connect;
+package com.example.connect.users.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.connect.R;
 
 public class StartUpScreenActivity extends AppCompatActivity {
 
