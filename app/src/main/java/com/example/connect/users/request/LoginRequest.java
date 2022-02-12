@@ -1,4 +1,4 @@
-package com.example.connect.users;
+package com.example.connect.users.request;
 
 import com.google.gson.annotations.SerializedName;
 

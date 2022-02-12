@@ -1,15 +1,14 @@
 package com.example.connect.users.api;
 
-import com.example.connect.users.LoginRequest;
-import com.example.connect.users.LoginResponse;
-import com.example.connect.users.RegisterRequest;
-import com.example.connect.users.RegisterResponse;
+import com.example.connect.users.request.LoginRequest;
+import com.example.connect.users.response.LoginResponse;
+import com.example.connect.users.request.RegisterRequest;
+import com.example.connect.users.response.RegisterResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface UsersApiService {
 

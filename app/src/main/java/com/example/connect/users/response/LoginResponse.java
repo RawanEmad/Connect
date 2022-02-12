@@ -1,17 +1,25 @@
-package com.example.connect.users;
+package com.example.connect.users.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RegisterRequest {
+public class LoginResponse {
 
+    @SerializedName("_id")
+    private String userId;
     @SerializedName("name")
     private String fullName;
     @SerializedName("mobile")
     private String phoneNo;
-    @SerializedName("password")
-    private String password;
     @SerializedName("gender")
     private String gender;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getFullName() {
         return fullName;
@@ -27,14 +35,6 @@ public class RegisterRequest {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getGender() {

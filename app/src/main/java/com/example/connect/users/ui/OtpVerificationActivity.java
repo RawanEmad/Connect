@@ -12,10 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaos.view.PinView;
-import com.example.connect.MainActivity;
 import com.example.connect.R;
-import com.example.connect.users.RegisterRequest;
-import com.example.connect.users.RegisterResponse;
+import com.example.connect.users.request.RegisterRequest;
+import com.example.connect.users.response.RegisterResponse;
 import com.example.connect.users.api.UsersApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

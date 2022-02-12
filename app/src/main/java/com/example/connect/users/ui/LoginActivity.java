@@ -13,10 +13,8 @@ import android.widget.Toast;
 
 import com.example.connect.MainActivity;
 import com.example.connect.R;
-import com.example.connect.users.LoginRequest;
-import com.example.connect.users.LoginResponse;
-import com.example.connect.users.RegisterRequest;
-import com.example.connect.users.RegisterResponse;
+import com.example.connect.users.request.LoginRequest;
+import com.example.connect.users.response.LoginResponse;
 import com.example.connect.users.api.UsersApiClient;
 import com.google.android.material.textfield.TextInputLayout;
 

@@ -1,8 +1,8 @@
-package com.example.connect.users;
+package com.example.connect.users.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
+public class RegisterResponse {
 
     @SerializedName("_id")
     private String userId;
