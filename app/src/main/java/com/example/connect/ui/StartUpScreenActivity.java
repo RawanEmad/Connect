@@ -1,4 +1,4 @@
-package com.example.connect.users.ui;
+package com.example.connect.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.connect.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,7 +43,7 @@ public class StartUpScreenActivity extends AppCompatActivity {
                         String token = task.getResult();
 
                         // Log and toast
-                        Log.d("FCM", "Token: " + token);
+                        Log.d("FCM", "FCM Token: " + token);
                         //Toast.makeText(StartUpScreenActivity.this, "Token: " + token, Toast.LENGTH_SHORT).show();
                     }
                 });

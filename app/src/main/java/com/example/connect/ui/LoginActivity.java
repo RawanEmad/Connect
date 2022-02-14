@@ -1,4 +1,4 @@
-package com.example.connect.users.ui;
+package com.example.connect.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,10 +11,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.connect.MainActivity;
 import com.example.connect.R;
+import com.example.connect.users.model.UserModel;
 import com.example.connect.users.request.LoginRequest;
-import com.example.connect.users.response.LoginResponse;
 import com.example.connect.users.api.UsersApiClient;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -34,9 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
     //data variables
     private TextInputLayout mPhoneNo, mPassword;
-
-    //API KEY
-    private final static String API_KEY = "382395e75d624fb1478303451bc7543314ffffac6372c2aa9beb22f687e6e886b77b3ee84aeeb1a8aabad9647686d0baaa4d9a7c65ff6ef1ebc71fcde7bac14b";
 
 
     @Override
@@ -86,13 +82,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(LoginRequest loginRequest) {
-        Call<LoginResponse> loginResponseCall = UsersApiClient.getService().loginUser(loginRequest, API_KEY);
-        loginResponseCall.enqueue(new Callback<LoginResponse>() {
+        Call<UserModel> loginResponseCall = UsersApiClient.getService().loginUser(loginRequest, UsersApiClient.API_KEY);
+        loginResponseCall.enqueue(new Callback<UserModel>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ContactsActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -101,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onFailure(Call<UserModel> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });

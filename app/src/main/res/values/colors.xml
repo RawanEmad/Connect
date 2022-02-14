@@ -22,6 +22,16 @@
     <color name="purple_50">#80421782</color>
     <color name="green">#3DA449</color>
     <color name="green_80">#CC3DA449</color>
+    <color name="black_new">#0E0C0C</color>
+    <color name="black_lighter">#333333</color>
+    <color name="gray_text2">#B9B9B9</color>
+    <color name="gray_text">#BDBFC1</color>
+    <color name="gray_lighter">#F3F5F7</color>
+    <color name="gray_darker">#E5E5E5</color>
+    <color name="gray">#F3F5F7</color>
+    <color name="green_audio">#22C561</color>
+    <color name="blue_video">#2999CC</color>
+    <color name="orange_chat">#C5554E</color>
     <color name="mtrl_textinput_default_box_stroke_color">#66C4C4C4</color>
 
 

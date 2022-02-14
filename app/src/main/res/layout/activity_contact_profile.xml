@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_new"
+    tools:context=".ui.ContactsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.44"
+        android:padding="45dp"
+        android:transitionName="transition_login"
+        tools:context=".ui.LoginActivity"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/contacts_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/back_button"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/contact_profile_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/user_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A"
+            android:textColor="@color/gray"
+            android:textSize="50sp"
+            app:layout_constraintBottom_toBottomOf="@id/contact_profile_image"
+            app:layout_constraintEnd_toEndOf="@id/contact_profile_image"
+            app:layout_constraintStart_toStartOf="@id/contact_profile_image"
+            app:layout_constraintTop_toTopOf="@id/contact_profile_image" />
+
+        <TextView
+            android:id="@+id/contact_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/red_hat_text_bold"
+            android:text="@string/full_name"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_profile_image" />
+
+        <TextView
+            android:id="@+id/contact_phone_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/red_hat_text_bold"
+            android:text="@string/user_phone"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_name_text_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.56"
+        android:background="@drawable/white_background"
+        app:layout_constraintTop_toBottomOf="@+id/top_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="45dp">
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/edit_contact_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="32dp"
+                android:drawableStart="@drawable/ic_baseline_edit_24"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/black_lighter"
+                android:padding="12dp"
+                android:fontFamily="@font/red_hat_text_regular"
+                android:text="@string/edit_contact"
+                android:textColor="@color/black_lighter"
+                android:textAllCaps="false"
+                android:background="@drawable/filled_button"
+                android:backgroundTint="@color/gray_lighter"
+                android:elevation="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/audio_call_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="42dp"
+                android:layout_marginBottom="32dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_baseline_phone_24"
+                android:background="@drawable/filled_button"
+                android:backgroundTint="@color/green_audio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/video_call_btn"
+                app:layout_constraintTop_toBottomOf="@+id/edit_contact_btn"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/red_hat_text_regular"
+                android:text="@string/call"
+                android:textSize="15sp"
+                android:textColor="@color/gray_text2"
+                app:layout_constraintStart_toStartOf="@id/audio_call_btn"
+                app:layout_constraintEnd_toEndOf="@id/audio_call_btn"
+                app:layout_constraintTop_toBottomOf="@id/audio_call_btn"/>
+
+            <ImageView
+                android:id="@+id/video_call_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="42dp"
+                android:layout_marginBottom="32dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_baseline_videocam_24"
+                android:background="@drawable/filled_button"
+                android:backgroundTint="@color/blue_video"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_contact_btn"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/red_hat_text_regular"
+                android:text="@string/video_call"
+                android:textSize="15sp"
+                android:textColor="@color/gray_text2"
+                app:layout_constraintStart_toStartOf="@id/video_call_btn"
+                app:layout_constraintEnd_toEndOf="@id/video_call_btn"
+                app:layout_constraintTop_toBottomOf="@id/video_call_btn"/>
+
+            <ImageView
+                android:id="@+id/chat_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="42dp"
+                android:layout_marginBottom="32dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_baseline_chat_bubble_24"
+                android:background="@drawable/filled_button"
+                android:backgroundTint="@color/orange_chat"
+                app:layout_constraintStart_toEndOf="@id/video_call_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_contact_btn"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/red_hat_text_regular"
+                android:text="@string/chat"
+                android:textSize="15sp"
+                android:textColor="@color/gray_text2"
+                app:layout_constraintStart_toStartOf="@id/chat_btn"
+                app:layout_constraintEnd_toEndOf="@id/chat_btn"
+                app:layout_constraintTop_toBottomOf="@id/chat_btn"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

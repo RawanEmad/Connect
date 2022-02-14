@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_lighter"
-    tools:context=".users.ui.OtpVerificationActivity">
+    tools:context=".ui.OtpVerificationActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_margin="45dp"
             android:paddingBottom="36dp"
             android:transitionName="transition_otp_verification"
-            tools:context=".users.ui.OtpVerificationActivity">
+            tools:context=".ui.OtpVerificationActivity">
 
             <ImageView
                 android:id="@+id/otp_close_btn"

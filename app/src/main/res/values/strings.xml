@@ -29,4 +29,11 @@
     <string name="verification_image_view">verification image view</string>
     <string name="back_button">back button</string>
     <string name="close_button">close button</string>
+    <string name="contacts">Contacts</string>
+    <string name="search_name_here">Search name here...</string>
+    <string name="my_contacts_20">My Contacts (20)</string>
+    <string name="call">Call</string>
+    <string name="edit_contact">Edit Contact</string>
+    <string name="video_call">Video Call</string>
+    <string name="chat">Chat</string>
 </resources>

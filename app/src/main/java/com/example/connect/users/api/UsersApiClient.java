@@ -8,6 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UsersApiClient {
 
     public static final String BASE_URL = "https://backend-api-tabarani.herokuapp.com/";
+    //API KEY
+    public final static String API_KEY = "382395e75d624fb1478303451bc7543314ffffac6372c2aa9beb22f687e6e886b77b3ee84aeeb1a8aabad9647686d0baaa4d9a7c65ff6ef1ebc71fcde7bac14b";
     private static Retrofit retrofit = null;
 
 

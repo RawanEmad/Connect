@@ -1,4 +1,4 @@
-package com.example.connect.users.ui;
+package com.example.connect.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 

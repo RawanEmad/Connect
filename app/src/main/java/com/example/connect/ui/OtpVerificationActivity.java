@@ -1,4 +1,4 @@
-package com.example.connect.users.ui;
+package com.example.connect.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.chaos.view.PinView;
 import com.example.connect.R;
+import com.example.connect.users.model.UserModel;
 import com.example.connect.users.request.RegisterRequest;
-import com.example.connect.users.response.RegisterResponse;
 import com.example.connect.users.api.UsersApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,9 +43,6 @@ public class OtpVerificationActivity extends AppCompatActivity {
     private PinView mPinView;
     private String codeBySystem;
     String fullName, phoneNo, password, gender;
-
-    //API KEY
-    private final static String API_KEY = "382395e75d624fb1478303451bc7543314ffffac6372c2aa9beb22f687e6e886b77b3ee84aeeb1a8aabad9647686d0baaa4d9a7c65ff6ef1ebc71fcde7bac14b";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,10 +143,10 @@ public class OtpVerificationActivity extends AppCompatActivity {
     }
 
     private void registerUser(RegisterRequest registerRequest) {
-        Call<RegisterResponse> registerResponseCall = UsersApiClient.getService().registerUser(registerRequest, API_KEY);
-        registerResponseCall.enqueue(new Callback<RegisterResponse>() {
+        Call<UserModel> registerResponseCall = UsersApiClient.getService().registerUser(registerRequest, UsersApiClient.API_KEY);
+        registerResponseCall.enqueue(new Callback<UserModel>() {
             @Override
-            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(OtpVerificationActivity.this, "Successful Registration", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(OtpVerificationActivity.this, LoginActivity.class);
@@ -161,7 +158,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+            public void onFailure(Call<UserModel> call, Throwable t) {
                 Toast.makeText(OtpVerificationActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -184,7 +181,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
                 String code = Objects.requireNonNull(mPinView.getText()).toString();
                 if (!code.isEmpty()) {
                     verifyCode(code);
-//                    Intent intent = new Intent(OtpVerificationActivity.this, MainActivity.class);
+//                    Intent intent = new Intent(OtpVerificationActivity.this, ContactsActivity.class);
 //                    startActivity(intent);
                 }
             }
