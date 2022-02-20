@@ -19,6 +19,7 @@ public class ContactProfileActivity extends AppCompatActivity {
 
     private TextView fullNameTextView;
     private TextView phoneNoTextView;
+    private TextView prefixTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +28,25 @@ public class ContactProfileActivity extends AppCompatActivity {
 
         fullNameTextView = findViewById(R.id.contact_name_text_view);
         phoneNoTextView = findViewById(R.id.contact_phone_text_view);
+        prefixTextView = findViewById(R.id.contact_prefix);
 
         getUser();
     }
 
     private void getUser() {
-        Call<UserResponse> userData = UsersApiClient.getService().getUser(UsersApiClient.API_KEY);
-        userData.enqueue(new Callback<UserResponse>() {
+        Call<UserResponse> userResponseCall = UsersApiClient.getService().getUser("201066923650", UsersApiClient.API_KEY);
+        userResponseCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                Toast.makeText(ContactProfileActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()) {
+                    String userName = response.body().getUserData().getFullName();
+                    char firstLetter = userName.charAt(0);
+                    String prefix = String.valueOf(firstLetter).toUpperCase();
+                    String phoneNo = "+" + response.body().getUserData().getPhoneNo();
+                    fullNameTextView.setText(userName);
+                    phoneNoTextView.setText(phoneNo);
+                    prefixTextView.setText(prefix);
+                }
             }
 
             @Override
@@ -45,4 +55,5 @@ public class ContactProfileActivity extends AppCompatActivity {
             }
         });
     }
+
 }

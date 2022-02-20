@@ -78,7 +78,7 @@ public class ContactsActivity extends AppCompatActivity {
                     }
                     //putDataIntoRecyclerView(mUserModelList);
 
-                    Toast.makeText(ContactsActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ContactsActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
 
                     mContactsLength.setText("My Contacts (" + response.body().getLength() + ")");
                 }

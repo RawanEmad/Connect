@@ -13,6 +13,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface UsersApiService {
 
@@ -25,6 +26,6 @@ public interface UsersApiService {
     @GET("api/users")
     Call<UserListResponse> getAllUsers(@Header("api_key") String api_key);
 
-    @GET("api/users/201024441235")
-    Call<UserResponse> getUser(@Header("api_key") String api_key);
+    @GET("api/users/{mobile}")
+    Call<UserResponse> getUser(@Path("mobile") String mobile, @Header("api_key") String api_key);
 }
