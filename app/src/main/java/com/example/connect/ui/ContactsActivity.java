@@ -55,7 +55,7 @@ public class ContactsActivity extends AppCompatActivity {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ContactsActivity.this, ContactProfileActivity.class);
+                Intent intent = new Intent(ContactsActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -94,4 +94,5 @@ public class ContactsActivity extends AppCompatActivity {
     private void putDataIntoRecyclerView(ArrayList<UserListResponse> userModelList) {
 
     }
+
 }
