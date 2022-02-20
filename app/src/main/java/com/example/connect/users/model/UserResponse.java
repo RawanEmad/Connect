@@ -1,5 +1,6 @@
 package com.example.connect.users.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -7,13 +8,17 @@ import java.util.List;
 public class UserResponse {
 
     @SerializedName("status")
+    @Expose
     private String status;
 
-    @SerializedName("length")
-    private String length;
+    @SerializedName("data")
+    @Expose
+    private UserModel userData;
 
-    @SerializedName("users")
-    private List<UserModel> usersList;
+    public UserResponse(String status, UserModel userData) {
+        this.status = status;
+        this.userData = userData;
+    }
 
     public String getStatus() {
         return status;
@@ -23,28 +28,19 @@ public class UserResponse {
         this.status = status;
     }
 
-    public String getLength() {
-        return length;
+    public UserModel getUserData() {
+        return userData;
     }
 
-    public void setLength(String length) {
-        this.length = length;
-    }
-
-    public List<UserModel> getUsersList() {
-        return usersList;
-    }
-
-    public void setUsersList(List<UserModel> usersList) {
-        this.usersList = usersList;
+    public void setUserData(UserModel userData) {
+        this.userData = userData;
     }
 
     @Override
     public String toString() {
         return "UserResponse{" +
                 "status='" + status + '\'' +
-                ", length=" + length +
-                ", usersList=" + usersList +
+                ", userData=" + userData +
                 '}';
     }
 }

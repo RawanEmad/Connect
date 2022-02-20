@@ -1,49 +1,30 @@
 package com.example.connect.users.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class UserModel {
 
-    @SerializedName("status")
-    private String status;
-    @SerializedName("length")
-    private int length;
-    @SerializedName("users")
-    private List<UserModel> usersList;
-
     @SerializedName("_id")
+    @Expose
     private String userId;
     @SerializedName("name")
+    @Expose
     private String fullName;
     @SerializedName("mobile")
+    @Expose
     private String phoneNo;
     @SerializedName("gender")
+    @Expose
     private String gender;
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public List<UserModel> getUsersList() {
-        return usersList;
-    }
-
-    public void setUsersList(List<UserModel> usersList) {
-        this.usersList = usersList;
+    public UserModel(String userId, String fullName, String phoneNo, String gender) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.phoneNo = phoneNo;
+        this.gender = gender;
     }
 
     public String getUserId() {
@@ -81,6 +62,7 @@ public class UserModel {
     @Override
     public String toString() {
         return "UserModel{" +
+                "userId='" + userId + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", phoneNo='" + phoneNo + '\'' +
                 ", gender='" + gender + '\'' +

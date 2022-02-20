@@ -1,9 +1,12 @@
 package com.example.connect.users.api;
 
-import com.example.connect.users.model.UserResponse;
+import com.example.connect.users.model.UserListResponse;
 import com.example.connect.users.model.UserModel;
+import com.example.connect.users.model.UserResponse;
 import com.example.connect.users.request.LoginRequest;
 import com.example.connect.users.request.RegisterRequest;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,6 +23,8 @@ public interface UsersApiService {
     Call<UserModel> loginUser(@Body LoginRequest loginRequest, @Header("api_key") String api_key);
 
     @GET("api/users")
-    Call<UserResponse> getAllUsers(@Header("api_key") String api_key);
+    Call<UserListResponse> getAllUsers(@Header("api_key") String api_key);
 
+    @GET("api/users/201024441235")
+    Call<UserResponse> getUser(@Header("api_key") String api_key);
 }

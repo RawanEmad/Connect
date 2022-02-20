@@ -1,10 +1,8 @@
 package com.example.connect.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +14,11 @@ import android.widget.Toast;
 import com.example.connect.R;
 import com.example.connect.users.UsersAdapter;
 import com.example.connect.users.api.UsersApiClient;
-import com.example.connect.users.model.UserResponse;
+import com.example.connect.users.model.UserListResponse;
+import com.example.connect.users.model.UserModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,9 +30,8 @@ public class ContactsActivity extends AppCompatActivity {
     private ImageView mBackButton;
     private TextView mContactsLength;
     private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private UsersAdapter mUsersAdapter;
+    private ArrayList<UserListResponse> mUserModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +41,10 @@ public class ContactsActivity extends AppCompatActivity {
         mBackButton = findViewById(R.id.contacts_back_btn);
         mContactsLength = findViewById(R.id.my_contacts_text);
         mRecyclerView = findViewById(R.id.users_recycler_view);
-        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-        mUsersAdapter = new UsersAdapter();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         callLoginScreen();
 
@@ -63,23 +62,36 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     private void getAllUsers() {
-        Call<UserResponse> usersList = UsersApiClient.getService().getAllUsers(UsersApiClient.API_KEY);
-        usersList.enqueue(new Callback<UserResponse>() {
+        Call<UserListResponse> usersList = UsersApiClient.getService().getAllUsers(UsersApiClient.API_KEY);
+        usersList.enqueue(new Callback<UserListResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+            public void onResponse(Call<UserListResponse> call, Response<UserListResponse> response) {
                 if (response.isSuccessful()) {
-//                    List<UserResponse> userResponseList = (List<UserResponse>) response.body();
-//                    mUsersAdapter.setData(userResponseList);
-//                    mRecyclerView.setAdapter(mUsersAdapter);
-                    Toast.makeText(ContactsActivity.this, "onResponse: " + response.body().toString(), Toast.LENGTH_SHORT).show();
+                    List<UserModel> userListResponse = response.body().getUsersList();
+                    //mUserModelList = userListResponse.getUsersList();
+                    //mUserModelList = new ArrayList<>(Arrays.asList(userListResponse.getUsersList()));
+
+                    for (int i=0; i<userListResponse.size(); i++) {
+                        UsersAdapter usersAdapter = new UsersAdapter((ArrayList<UserModel>) userListResponse);
+                        mRecyclerView.setAdapter(usersAdapter);
+                        usersAdapter.notifyDataSetChanged();
+                    }
+                    //putDataIntoRecyclerView(mUserModelList);
+
+                    Toast.makeText(ContactsActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
+
                     mContactsLength.setText("My Contacts (" + response.body().getLength() + ")");
                 }
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<UserListResponse> call, Throwable t) {
                 Toast.makeText(ContactsActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void putDataIntoRecyclerView(ArrayList<UserListResponse> userModelList) {
+
     }
 }
