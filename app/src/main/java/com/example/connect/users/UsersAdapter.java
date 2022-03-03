@@ -1,13 +1,11 @@
 package com.example.connect.users;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,7 +77,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
             prefix = itemView.findViewById(R.id.prefix);
             moreInfo = itemView.findViewById(R.id.more_details_image);
 
-            //moreInfo.setOnClickListener(this);
         }
 
         public TextView getUserName() {
@@ -93,15 +90,5 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         public ImageView getMoreInfo() {
             return moreInfo;
         }
-
-//        @Override
-//        public void onClick(View view) {
-//            int position = getBindingAdapterPosition();
-//            Toast.makeText(moreInfo.getContext(), "position : " + position, Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(moreInfo.getContext(), ContactProfileActivity.class);
-//            //Pass all fields to the next activity
-//            //intent.putExtra("phoneNo", phoneNo);
-//            moreInfo.getContext().startActivity(intent);
-//        }
     }
 }

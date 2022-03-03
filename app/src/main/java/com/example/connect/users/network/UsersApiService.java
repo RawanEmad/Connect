@@ -1,12 +1,10 @@
-package com.example.connect.users.api;
+package com.example.connect.users.network;
 
 import com.example.connect.users.model.UserListResponse;
 import com.example.connect.users.model.UserModel;
 import com.example.connect.users.model.UserResponse;
 import com.example.connect.users.request.LoginRequest;
 import com.example.connect.users.request.RegisterRequest;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

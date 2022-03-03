@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_lighter"
+    android:background="@drawable/background_app"
     tools:context=".ui.RegisterActivity">
 
     <ScrollView
@@ -179,6 +179,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/filled_button"
+                android:backgroundTint="@color/purple_lighter_50"
                 android:elevation="5dp"
                 android:fontFamily="@font/red_hat_text_bold"
                 android:text="@string/next"

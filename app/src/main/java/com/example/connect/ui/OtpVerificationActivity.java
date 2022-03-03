@@ -15,7 +15,7 @@ import com.chaos.view.PinView;
 import com.example.connect.R;
 import com.example.connect.users.model.UserModel;
 import com.example.connect.users.request.RegisterRequest;
-import com.example.connect.users.api.UsersApiClient;
+import com.example.connect.users.network.UsersApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;

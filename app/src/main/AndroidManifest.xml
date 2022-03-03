@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Connect"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.JoinMeetingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ContactProfileActivity"
             android:exported="false" />
         <activity

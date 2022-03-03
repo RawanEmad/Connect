@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.example.connect.R;
 import com.example.connect.users.UsersAdapter;
-import com.example.connect.users.api.UsersApiClient;
+import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.model.UserListResponse;
 import com.example.connect.users.model.UserModel;
 

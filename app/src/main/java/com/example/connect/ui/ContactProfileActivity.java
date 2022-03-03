@@ -10,7 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.connect.R;
-import com.example.connect.users.api.UsersApiClient;
+import com.example.connect.listeners.UsersListeners;
+import com.example.connect.users.model.UserModel;
+import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.model.UserResponse;
 
 import retrofit2.Call;
@@ -24,6 +26,8 @@ public class ContactProfileActivity extends AppCompatActivity {
     private TextView phoneNoTextView;
     private TextView prefixTextView;
     private ImageView audioCall, videoCall, chat;
+
+    private UsersListeners mUsersListeners;
 
     String id, fullName, phoneNo, prefix, gender;
 
@@ -50,6 +54,7 @@ public class ContactProfileActivity extends AppCompatActivity {
         //getUser();
         displayUserData();
         callContactsScreen();
+        initiateMeeting();
     }
 
     private void displayUserData() {
@@ -63,6 +68,25 @@ public class ContactProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ContactProfileActivity.this, ContactsActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initiateAudioMeeting() {
+        audioCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //mUsersListeners.initiateAudioMeeting();
+            }
+        });
+    }
+
+    private void initiateMeeting() {
+        videoCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ContactProfileActivity.this, JoinMeetingActivity.class);
                 startActivity(intent);
             }
         });

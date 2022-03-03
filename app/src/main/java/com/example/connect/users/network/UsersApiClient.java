@@ -1,4 +1,4 @@
-package com.example.connect.users.api;
+package com.example.connect.users.network;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

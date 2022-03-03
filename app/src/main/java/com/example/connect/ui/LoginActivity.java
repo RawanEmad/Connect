@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.connect.R;
 import com.example.connect.users.model.UserModel;
 import com.example.connect.users.request.LoginRequest;
-import com.example.connect.users.api.UsersApiClient;
+import com.example.connect.users.network.UsersApiClient;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;

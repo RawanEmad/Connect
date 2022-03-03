@@ -15,6 +15,7 @@
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable-v24/white_outline_button_normal.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable-v24/white_outline_button_pressed.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/arrow_back.xml" value="0.21944444444444444" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/background_app.xml" value="0.1245" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" value="0.133" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.1962962962962963" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_https_24.xml" value="0.21666666666666667" />
@@ -31,6 +32,7 @@
         <entry key="..\:/Android projects/Connect/app/src/main/res/font/red_hat_text.xml" value="0.23796296296296296" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_contact_profile.xml" value="0.264" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_contacts.xml" value="0.1" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_join_meeting.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_login.xml" value="0.25025641025641027" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_main.xml" value="0.2388888888888889" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_otp_verification.xml" value="0.25025641025641027" />
@@ -51,7 +53,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.1" />
+        <option name="scale" value="0.11200000000000002" />
       </ProjectState>
     </option>
   </component>
