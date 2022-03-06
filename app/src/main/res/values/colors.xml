@@ -22,6 +22,8 @@
     <color name="purple_50">#80421782</color>
     <color name="green">#3DA449</color>
     <color name="green_80">#CC3DA449</color>
+    <color name="green_accept">#10D879</color>
+    <color name="red_cancel">#FA5657</color>
     <color name="black_new">#0E0C0C</color>
     <color name="black_lighter">#333333</color>
     <color name="gray_text2">#B9B9B9</color>

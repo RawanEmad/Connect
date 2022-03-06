@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         mPhoneNo = findViewById(R.id.login_input_phone);
         mPassword = findViewById(R.id.login_input_password);
 
-        callStartUpScreen();
+        callPreviousScreen();
         callMainScreen();
         callRegisterScreen();
     }
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void callStartUpScreen() {
+    private void callPreviousScreen() {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, ContactsActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

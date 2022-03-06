@@ -46,16 +46,16 @@ public class ContactsActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        callLoginScreen();
+        callPreviousScreen();
 
         getAllUsers();
     }
 
-    private void callLoginScreen() {
+    private void callPreviousScreen() {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ContactsActivity.this, LoginActivity.class);
+                Intent intent = new Intent(ContactsActivity.this, DashboardActivity.class);
                 startActivity(intent);
             }
         });
@@ -89,10 +89,6 @@ public class ContactsActivity extends AppCompatActivity {
                 Toast.makeText(ContactsActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void putDataIntoRecyclerView(ArrayList<UserListResponse> userModelList) {
-
     }
 
 }

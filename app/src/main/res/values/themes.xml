@@ -28,6 +28,10 @@
         <item name="hintTextColor">@color/white_70</item>
     </style>
 
+    <style name="RoundedSquare">
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="TextInputLayout.DropDownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="boxCornerRadiusTopStart">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>

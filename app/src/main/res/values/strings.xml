@@ -31,9 +31,15 @@
     <string name="close_button">close button</string>
     <string name="contacts">Contacts</string>
     <string name="search_name_here">Search name here...</string>
-    <string name="my_contacts_20">My Contacts (20)</string>
+    <string name="my_contacts_20">My Contacts (0)</string>
     <string name="call">Call</string>
     <string name="edit_contact">Edit Contact</string>
     <string name="video_call">Video Call</string>
     <string name="chat">Chat</string>
+    <string name="join_meeting">Join Meeting</string>
+    <string name="rooms">Rooms</string>
+    <string name="reject">Reject</string>
+    <string name="confirm">Confirm</string>
+    <string name="incoming_call">incoming call</string>
+    <string name="cancel">Cancel</string>
 </resources>

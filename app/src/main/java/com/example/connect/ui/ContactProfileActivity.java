@@ -53,8 +53,9 @@ public class ContactProfileActivity extends AppCompatActivity {
 
         //getUser();
         displayUserData();
-        callContactsScreen();
-        initiateMeeting();
+        callPreviousScreen();
+        initiateAudioMeeting();
+        initiateVideoMeeting();
     }
 
     private void displayUserData() {
@@ -63,7 +64,7 @@ public class ContactProfileActivity extends AppCompatActivity {
         prefixTextView.setText(prefix);
     }
 
-    private void callContactsScreen() {
+    private void callPreviousScreen() {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,15 +79,21 @@ public class ContactProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //mUsersListeners.initiateAudioMeeting();
+                Intent intent = new Intent(ContactProfileActivity.this, OutGoingCallActivity.class);
+                intent.putExtra("fullName", fullName);
+                intent.putExtra("prefix", prefix);
+                startActivity(intent);
             }
         });
     }
 
-    private void initiateMeeting() {
+    private void initiateVideoMeeting() {
         videoCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ContactProfileActivity.this, JoinMeetingActivity.class);
+                Intent intent = new Intent(ContactProfileActivity.this, OutGoingCallActivity.class);
+                intent.putExtra("fullName", fullName);
+                intent.putExtra("prefix", prefix);
                 startActivity(intent);
             }
         });

@@ -11,7 +11,7 @@
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.44"
+        app:layout_constraintHeight_percent="0.48"
         android:padding="45dp"
         android:transitionName="transition_login"
         tools:context=".ui.LoginActivity"
@@ -83,7 +83,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.56"
+        app:layout_constraintHeight_percent="0.52"
         android:background="@drawable/white_background"
         app:layout_constraintTop_toBottomOf="@+id/top_layout">
 

@@ -3,6 +3,8 @@
     package="com.example.connect">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Connect"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.OutGoingCallActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.IncomingCallActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.DashboardActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.JoinMeetingActivity"
             android:exported="false" />
