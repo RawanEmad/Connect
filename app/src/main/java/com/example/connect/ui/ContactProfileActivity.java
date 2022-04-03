@@ -3,29 +3,39 @@ package com.example.connect.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.connect.R;
 import com.example.connect.listeners.UsersListeners;
-import com.example.connect.users.model.UserModel;
 import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.model.UserResponse;
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Objects;
+
+import javax.annotation.Nullable;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ContactProfileActivity extends AppCompatActivity {
 
-    private ImageView mBackButton;
     private TextView fullNameTextView;
     private TextView phoneNoTextView;
     private TextView prefixTextView;
-    private ImageView audioCall, videoCall, chat;
+    private CircleImageView profileImage;
+    private ImageView mBackButton, audioCall, videoCall, chat;
+    private FloatingActionButton mFloatingActionButton;
+    private Button mEditContact;
 
     private UsersListeners mUsersListeners;
 
@@ -40,9 +50,12 @@ public class ContactProfileActivity extends AppCompatActivity {
         fullNameTextView = findViewById(R.id.contact_name_text_view);
         phoneNoTextView = findViewById(R.id.contact_phone_text_view);
         prefixTextView = findViewById(R.id.contact_prefix);
+        profileImage = findViewById(R.id.contact_profile_image);
+        mFloatingActionButton = findViewById(R.id.fab_edit);
         audioCall = findViewById(R.id.audio_call_btn);
         videoCall = findViewById(R.id.video_call_btn);
         chat = findViewById(R.id.chat_btn);
+        mEditContact = findViewById(R.id.edit_contact_btn);
 
         //Get all the data from Intent
         id = getIntent().getStringExtra("id");
@@ -54,6 +67,7 @@ public class ContactProfileActivity extends AppCompatActivity {
         //getUser();
         displayUserData();
         callPreviousScreen();
+        editProfileImage();
         initiateAudioMeeting();
         initiateVideoMeeting();
     }
@@ -72,6 +86,28 @@ public class ContactProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void editProfileImage() {
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImagePicker.Companion.with(ContactProfileActivity.this)
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Uri uri = Objects.requireNonNull(data).getData();
+        profileImage.setImageURI(uri);
+        prefixTextView.setText("");
     }
 
     private void initiateAudioMeeting() {
@@ -100,7 +136,7 @@ public class ContactProfileActivity extends AppCompatActivity {
     }
 
     private void getUser() {
-        Call<UserResponse> userResponseCall = UsersApiClient.getService().getUser("201066923650", UsersApiClient.API_KEY);
+        Call<UserResponse> userResponseCall = UsersApiClient.getService().getUser(phoneNo, UsersApiClient.API_KEY);
         userResponseCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
