@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.connect.R;
+import com.example.connect.users.SessionManager;
 import com.example.connect.users.model.UserModel;
+import com.example.connect.users.model.UserResponse;
 import com.example.connect.users.request.LoginRequest;
 import com.example.connect.users.network.UsersApiClient;
 import com.google.android.material.textfield.TextInputLayout;
@@ -34,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     //data variables
     private TextInputLayout mPhoneNo, mPassword;
 
+    String _phoneNumber, _password;
+    String id, fullName, phoneNo, image, gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +61,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validateFields(){
-        String _phoneNumber = Objects.requireNonNull(mPhoneNo.getEditText()).getText().toString().trim();
-        String _password = Objects.requireNonNull(mPassword.getEditText()).getText().toString().trim();
+        _phoneNumber = Objects.requireNonNull(mPhoneNo.getEditText()).getText().toString().trim();
+        _password = Objects.requireNonNull(mPassword.getEditText()).getText().toString().trim();
 
         if (_phoneNumber.isEmpty()) {
             mPhoneNo.setError("Phone number can not be empty!");
@@ -81,12 +86,40 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void getUserDataForSession() {
+        Call<UserResponse> userResponseCall = UsersApiClient.getService().getUser(_phoneNumber, UsersApiClient.API_KEY);
+        userResponseCall.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful()) {
+                    id = response.body().getUserData().getUserId();
+                    fullName = response.body().getUserData().getFullName();
+                    phoneNo = response.body().getUserData().getPhoneNo();
+                    image = response.body().getUserData().getProfileImage();
+                    gender = response.body().getUserData().getGender();
+
+                    //create a session
+                    SessionManager sessionManager = new SessionManager(LoginActivity.this);
+                    sessionManager.createLoginSession(id, fullName, phoneNo, _password, image, gender);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void loginUser(LoginRequest loginRequest) {
         Call<UserModel> loginResponseCall = UsersApiClient.getService().loginUser(loginRequest, UsersApiClient.API_KEY);
         loginResponseCall.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.isSuccessful()) {
+                    //Get user data from database and create a session
+                    getUserDataForSession();
+
                     Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                     startActivity(intent);
