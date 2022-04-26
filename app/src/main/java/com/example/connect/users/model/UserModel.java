@@ -19,12 +19,16 @@ public class UserModel {
     @SerializedName("gender")
     @Expose
     private String gender;
+    @SerializedName("image")
+    @Expose
+    private String profileImage;
 
-    public UserModel(String userId, String fullName, String phoneNo, String gender) {
+    public UserModel(String userId, String fullName, String phoneNo, String gender, String profileImage) {
         this.userId = userId;
         this.fullName = fullName;
         this.phoneNo = phoneNo;
         this.gender = gender;
+        this.profileImage = profileImage;
     }
 
     public String getUserId() {
@@ -59,6 +63,14 @@ public class UserModel {
         this.gender = gender;
     }
 
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
     @Override
     public String toString() {
         return "UserModel{" +
@@ -66,6 +78,7 @@ public class UserModel {
                 ", fullName='" + fullName + '\'' +
                 ", phoneNo='" + phoneNo + '\'' +
                 ", gender='" + gender + '\'' +
+                ", profileImage='" + profileImage + '\'' +
                 '}';
     }
 }
