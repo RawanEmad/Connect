@@ -12,6 +12,11 @@ public class SessionManager {
     SharedPreferences.Editor mEditor;
     Context mContext;
 
+    //Session names
+    public static final String SESSION_USERSESSION = "userLoginSession";
+    public static final String SESSION_REMEMBERME = "rememberMe";
+
+    //User Session variables
     private static final String IS_LOGIN = "IsLoggedIn";
 
     public static final String KEY_ID = "userId";
@@ -21,12 +26,23 @@ public class SessionManager {
     public static final String KEY_IMAGE = "profileImage";
     public static final String KEY_GENDER = "gender";
 
-    public SessionManager(Context context) {
+    //Remember Me variables
+    private static final String IS_REMEMBERME = "IsRememberMe";
+
+    public static final String KEY_SESSIONPHONENO = "phoneNo";
+    public static final String KEY_SESSIONPASSWORD = "password";
+
+    //constructor
+    public SessionManager(Context context, String sessionName) {
         mContext = context;
-        usersSession = mContext.getSharedPreferences("userLoginSession", Context.MODE_PRIVATE);
+        usersSession = mContext.getSharedPreferences(sessionName, Context.MODE_PRIVATE);
         mEditor = usersSession.edit();
     }
 
+    /*
+    Users
+    Login Session
+     */
     public void createLoginSession(String userId, String fullName, String phoneNo, String password, String profileImage, String gender) {
 
         mEditor.putBoolean(IS_LOGIN, true);
@@ -41,7 +57,7 @@ public class SessionManager {
         mEditor.commit();
     }
 
-    public HashMap<String, String> getUsersDetailsFromSession() {
+    public HashMap<String, String> getUserDetailsFromSession() {
         HashMap<String, String> userData = new HashMap<String, String>();
 
         userData.put(KEY_ID, usersSession.getString(KEY_ID, null));
@@ -61,9 +77,39 @@ public class SessionManager {
             return false;
     }
 
-    public void logoutUserFromSession() {
+    public void logoutFromUserSession() {
         mEditor.clear();
         mEditor.commit();
+    }
+
+    /*
+    Remember Me
+    Session functions
+     */
+    public void createRememberMeSession(String phoneNo, String password) {
+
+        mEditor.putBoolean(IS_REMEMBERME, true);
+
+        mEditor.putString(KEY_SESSIONPHONENO, phoneNo);
+        mEditor.putString(KEY_SESSIONPASSWORD, password);
+
+        mEditor.commit();
+    }
+
+    public HashMap<String, String> getRememberMeDetailsFromSession() {
+        HashMap<String, String> userData = new HashMap<String, String>();
+
+        userData.put(KEY_SESSIONPHONENO, usersSession.getString(KEY_SESSIONPHONENO, null));
+        userData.put(KEY_SESSIONPASSWORD, usersSession.getString(KEY_SESSIONPASSWORD, null));
+
+        return userData;
+    }
+
+    public boolean checkRememberMe() {
+        if(usersSession.getBoolean(IS_REMEMBERME, false)){
+            return true;
+        } else
+            return false;
     }
 
 }

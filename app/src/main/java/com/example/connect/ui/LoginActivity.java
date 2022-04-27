@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,6 +20,7 @@ import com.example.connect.users.request.LoginRequest;
 import com.example.connect.users.network.UsersApiClient;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView mBackButton;
     private Button mLoginButton;
     private TextView mRegisterButton;
+    private CheckBox mRememberMe;
     private ProgressBar mProgressBar;
 
     //data variables
@@ -49,11 +51,20 @@ public class LoginActivity extends AppCompatActivity {
         mBackButton = findViewById(R.id.login_back_btn);
         mLoginButton = findViewById(R.id.login_btn);
         mRegisterButton = findViewById(R.id.register_text_view);
+        mRememberMe = findViewById(R.id.remember_me_check_box);
         mProgressBar = findViewById(R.id.login_progress_bar);
 
         //declare data variables
         mPhoneNo = findViewById(R.id.login_input_phone);
         mPassword = findViewById(R.id.login_input_password);
+
+        //retrieve phone number and password from shared preferences
+        SessionManager sessionManager = new SessionManager(LoginActivity.this, SessionManager.SESSION_REMEMBERME);
+        if (sessionManager.checkRememberMe()) {
+            HashMap<String, String> rememberMeDetails = sessionManager.getRememberMeDetailsFromSession();
+            mPhoneNo.getEditText().setText(rememberMeDetails.get(SessionManager.KEY_SESSIONPHONENO));
+            mPassword.getEditText().setText(rememberMeDetails.get(SessionManager.KEY_SESSIONPASSWORD));
+        }
 
         callPreviousScreen();
         callMainScreen();
@@ -98,8 +109,8 @@ public class LoginActivity extends AppCompatActivity {
                     image = response.body().getUserData().getProfileImage();
                     gender = response.body().getUserData().getGender();
 
-                    //create a session
-                    SessionManager sessionManager = new SessionManager(LoginActivity.this);
+                    //create login session
+                    SessionManager sessionManager = new SessionManager(LoginActivity.this, SessionManager.SESSION_USERSESSION);
                     sessionManager.createLoginSession(id, fullName, phoneNo, _password, image, gender);
                 }
             }
@@ -119,6 +130,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     //Get user data from database and create a session
                     getUserDataForSession();
+
+                    hideDialog();
 
                     Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
@@ -145,8 +158,16 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 } //Validation succeeded and now move to next screen
 
+                showDialog();
+
                 String _phoneNumber = Objects.requireNonNull(mPhoneNo.getEditText()).getText().toString().trim();
                 String _password = Objects.requireNonNull(mPassword.getEditText()).getText().toString().trim();
+
+                //create remember me session
+                if (mRememberMe.isChecked()) {
+                    SessionManager sessionManager = new SessionManager(LoginActivity.this, SessionManager.SESSION_REMEMBERME);
+                    sessionManager.createRememberMeSession(_phoneNumber,_password);
+                }
 
                 LoginRequest loginRequest = new LoginRequest();
                 loginRequest.setPhoneNo(_phoneNumber);

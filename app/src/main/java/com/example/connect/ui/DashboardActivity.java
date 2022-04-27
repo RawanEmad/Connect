@@ -19,7 +19,9 @@ public class DashboardActivity extends AppCompatActivity {
     //variables
     private ImageView mBackButton;
     private TextView mUserText;
-    private Button mRoomsButton, mContactsButton;
+    private Button mRoomsButton, mContactsButton, mLogoutButton;
+
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +32,10 @@ public class DashboardActivity extends AppCompatActivity {
         mUserText = findViewById(R.id.dashboard_text_view);
         mRoomsButton = findViewById(R.id.rooms_btn);
         mContactsButton = findViewById(R.id.contacts_btn);
+        mLogoutButton = findViewById(R.id.logout_btn);
 
-        SessionManager sessionManager = new SessionManager(DashboardActivity.this);
-        HashMap<String, String> usersDetails = sessionManager.getUsersDetailsFromSession();
+        sessionManager = new SessionManager(DashboardActivity.this, SessionManager.SESSION_USERSESSION);
+        HashMap<String, String> usersDetails = sessionManager.getUserDetailsFromSession();
 
         String fullName = usersDetails.get(SessionManager.KEY_FULLNAME);
         String phoneNo = usersDetails.get(SessionManager.KEY_PHONENO);
@@ -42,6 +45,19 @@ public class DashboardActivity extends AppCompatActivity {
         callPreviousScreen();
         callRoomsScreen();
         callContactsScreen();
+        //logoutUser();
+    }
+
+    private void logoutUser() {
+        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //SessionManager sessionManager = new SessionManager(DashboardActivity.this, SessionManager.SESSION_USERSESSION);
+                sessionManager.logoutFromUserSession();
+                Intent intent = new Intent(DashboardActivity.this, StartUpScreenActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void callContactsScreen() {

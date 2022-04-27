@@ -17,10 +17,8 @@ import com.example.connect.listeners.UsersListeners;
 import com.example.connect.users.model.UserModel;
 import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.model.UserResponse;
-import com.facebook.common.file.FileUtils;
 import com.facebook.common.util.UriUtil;
 import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.github.dhaval2404.imagepicker.util.FileUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
@@ -130,7 +128,7 @@ public class ContactProfileActivity extends AppCompatActivity {
 
                 // MultipartBody.Part is used to send also the actual file name
                 MultipartBody.Part body =
-                        MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+                        MultipartBody.Part.createFormData("image", file.getPath(), requestFile);
 
                 Call<UserModel> uploadFileCall = UsersApiClient.getService().uploadUserImage(phoneNo,
                         body, UsersApiClient.API_KEY);
