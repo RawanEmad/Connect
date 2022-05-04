@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.connect.R;
-import com.example.connect.users.SessionManager;
+import com.example.connect.utilities.SessionManager;
 
 import java.util.HashMap;
 

@@ -1,5 +1,6 @@
-package com.example.connect.users.model;
+package com.example.connect.users.response;
 
+import com.example.connect.models.UserModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

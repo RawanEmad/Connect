@@ -1,8 +1,8 @@
 package com.example.connect.users.network;
 
-import com.example.connect.users.model.UserListResponse;
-import com.example.connect.users.model.UserModel;
-import com.example.connect.users.model.UserResponse;
+import com.example.connect.users.response.UserListResponse;
+import com.example.connect.models.UserModel;
+import com.example.connect.users.response.UserResponse;
 import com.example.connect.users.request.LoginRequest;
 import com.example.connect.users.request.RegisterRequest;
 
@@ -34,8 +34,7 @@ public interface UsersApiService {
 
     @Multipart
     @Headers({
-            "Content-Type: multipart/form-data",
-            "Accept: application/json"
+            "Content-Type: application/json"
     })
     @PATCH("api/users/image/{mobile}")
     Call<UserModel> uploadUserImage(@Path("mobile") String mobile, @Part MultipartBody.Part image, @Header("api_key") String api_key);

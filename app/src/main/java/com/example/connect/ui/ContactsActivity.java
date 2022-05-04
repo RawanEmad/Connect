@@ -12,10 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.connect.R;
-import com.example.connect.users.UsersAdapter;
+import com.example.connect.adapters.UsersAdapter;
 import com.example.connect.users.network.UsersApiClient;
-import com.example.connect.users.model.UserListResponse;
-import com.example.connect.users.model.UserModel;
+import com.example.connect.users.response.UserListResponse;
+import com.example.connect.models.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,8 @@ public class ContactsActivity extends AppCompatActivity {
 
                     //Toast.makeText(ContactsActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
 
-                    mContactsLength.setText("My Contacts (" + response.body().getLength() + ")");
+                    int length = Integer.parseInt(response.body().getLength()) -1;
+                    mContactsLength.setText("My Contacts (" + length + ")");
                 }
             }
 

@@ -12,11 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.connect.R;
 import com.example.connect.listeners.UsersListeners;
-import com.example.connect.users.model.UserModel;
+import com.example.connect.models.UserModel;
 import com.example.connect.users.network.UsersApiClient;
-import com.example.connect.users.model.UserResponse;
+import com.example.connect.users.response.UserResponse;
 import com.facebook.common.util.UriUtil;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -76,11 +77,17 @@ public class ContactProfileActivity extends AppCompatActivity {
         editProfileImage();
         initiateAudioMeeting();
         initiateVideoMeeting();
+        chatUser();
     }
 
     private void displayUserData() {
         fullNameTextView.setText(fullName);
         phoneNoTextView.setText(phoneNo);
+
+        //Adding Glide library to display images
+        Glide.with(getApplicationContext())
+                .load(image)
+                .into(profileImage);
     }
 
     private void callPreviousScreen() {
@@ -100,7 +107,7 @@ public class ContactProfileActivity extends AppCompatActivity {
                 ImagePicker.Companion.with(ContactProfileActivity.this)
                         .crop()	    			//Crop image(Optional), Check Customization for more option
                         .compress(620)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(620, 620)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        //.maxResultSize(1024, 1024)	//Final image resolution will be less than 1080 x 1080(Optional)
                         .start();
             }
         });
@@ -111,6 +118,7 @@ public class ContactProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         Uri uri = Objects.requireNonNull(data).getData();
+        //selectedImage = uri.toString();
         selectedImage = UriUtil.getRealPathFromUri(getContentResolver(), uri);
         profileImage.setImageURI(uri);
 
@@ -128,7 +136,7 @@ public class ContactProfileActivity extends AppCompatActivity {
 
                 // MultipartBody.Part is used to send also the actual file name
                 MultipartBody.Part body =
-                        MultipartBody.Part.createFormData("image", file.getPath(), requestFile);
+                        MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
                 Call<UserModel> uploadFileCall = UsersApiClient.getService().uploadUserImage(phoneNo,
                         body, UsersApiClient.API_KEY);
@@ -154,14 +162,31 @@ public class ContactProfileActivity extends AppCompatActivity {
         });
     }
 
-        private void initiateAudioMeeting() {
+    private void chatUser() {
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ContactProfileActivity.this, ChatActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("fullName", fullName);
+                intent.putExtra("phoneNo", phoneNo);
+                intent.putExtra("image", image);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    private void initiateAudioMeeting() {
         audioCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //mUsersListeners.initiateAudioMeeting();
                 Intent intent = new Intent(ContactProfileActivity.this, OutGoingCallActivity.class);
                 intent.putExtra("fullName", fullName);
+                intent.putExtra("image", image);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -172,7 +197,9 @@ public class ContactProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ContactProfileActivity.this, OutGoingCallActivity.class);
                 intent.putExtra("fullName", fullName);
+                intent.putExtra("image", image);
                 startActivity(intent);
+                finish();
             }
         });
     }

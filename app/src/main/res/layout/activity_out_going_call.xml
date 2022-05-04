@@ -42,27 +42,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/contact_profile_image"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="140dp"
-                android:src="@drawable/user_background"
+                android:src="@color/blue_video"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/contact_prefix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A"
-                android:textColor="@color/gray"
-                android:textSize="50sp"
-                app:layout_constraintBottom_toBottomOf="@id/contact_profile_image"
-                app:layout_constraintEnd_toEndOf="@id/contact_profile_image"
-                app:layout_constraintStart_toStartOf="@id/contact_profile_image"
-                app:layout_constraintTop_toTopOf="@id/contact_profile_image" />
 
             <TextView
                 android:id="@+id/contact_name_text_view"

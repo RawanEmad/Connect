@@ -1,6 +1,6 @@
 package com.example.connect.listeners;
 
-import com.example.connect.users.model.UserModel;
+import com.example.connect.models.UserModel;
 
 public interface UsersListeners {
 

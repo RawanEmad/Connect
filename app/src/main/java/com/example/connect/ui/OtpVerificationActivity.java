@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.chaos.view.PinView;
 import com.example.connect.R;
-import com.example.connect.users.model.UserModel;
+import com.example.connect.models.UserModel;
 import com.example.connect.users.request.RegisterRequest;
 import com.example.connect.users.network.UsersApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;

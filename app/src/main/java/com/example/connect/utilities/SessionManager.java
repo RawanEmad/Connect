@@ -1,4 +1,4 @@
-package com.example.connect.users;
+package com.example.connect.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;

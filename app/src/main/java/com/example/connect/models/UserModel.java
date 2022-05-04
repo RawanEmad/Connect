@@ -1,9 +1,7 @@
-package com.example.connect.users.model;
+package com.example.connect.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 public class UserModel {
 

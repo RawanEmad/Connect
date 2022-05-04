@@ -13,9 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.connect.R;
-import com.example.connect.users.SessionManager;
-import com.example.connect.users.model.UserModel;
-import com.example.connect.users.model.UserResponse;
+import com.example.connect.utilities.SessionManager;
+import com.example.connect.models.UserModel;
+import com.example.connect.users.response.UserResponse;
 import com.example.connect.users.request.LoginRequest;
 import com.example.connect.users.network.UsersApiClient;
 import com.google.android.material.textfield.TextInputLayout;

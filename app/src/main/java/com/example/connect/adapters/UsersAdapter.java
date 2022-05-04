@@ -1,4 +1,4 @@
-package com.example.connect.users;
+package com.example.connect.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.connect.R;
 import com.example.connect.ui.ContactProfileActivity;
-import com.example.connect.users.model.UserModel;
+import com.example.connect.utilities.SessionManager;
+import com.example.connect.models.UserModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -24,6 +26,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
     private ArrayList<UserModel> mUserResponseList;
     private Context mContext;
+    private String currentUserId;
+    private SessionManager sessionManager;
 
     public UsersAdapter(ArrayList<UserModel> userResponseList) {
         mUserResponseList = userResponseList;
@@ -33,6 +37,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     @Override
     public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
+        sessionManager = new SessionManager(mContext, SessionManager.SESSION_USERSESSION);
+        HashMap<String, String> usersDetails = sessionManager.getUserDetailsFromSession();
+
+        currentUserId = usersDetails.get(SessionManager.KEY_ID);
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.users_list_item, parent, false);
         return new UsersViewHolder(view);
@@ -48,6 +56,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         String phoneNo = userResponse.getPhoneNo();
         String gender = userResponse.getGender();
 
+        if (currentUserId.equals(id)) {
+            holder.getUserName().setVisibility(View.GONE);
+            holder.profileImage.setVisibility(View.GONE);
+            holder.getMoreInfo().setVisibility(View.GONE);
+        }
         holder.getUserName().setText(userName);
 
         //Adding Glide library to display images
@@ -68,6 +81,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
                 view.getContext().startActivity(intent);
             }
         });
+
     }
 
     @Override

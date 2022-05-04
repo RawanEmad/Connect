@@ -8,15 +8,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.connect.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class OutGoingCallActivity extends AppCompatActivity {
 
     private ImageView mBackButton;
     private TextView fullNameTextView;
-    private TextView prefixTextView;
+    private CircleImageView profileImageView;
 
-    String fullName, prefix;
+    String fullName, image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +28,11 @@ public class OutGoingCallActivity extends AppCompatActivity {
 
         mBackButton = findViewById(R.id.contacts_back_btn);
         fullNameTextView = findViewById(R.id.contact_name_text_view);
-        prefixTextView = findViewById(R.id.contact_prefix);
+        profileImageView = findViewById(R.id.contact_profile_image);
 
         //Get all the data from Intent
         fullName = getIntent().getStringExtra("fullName");
-        prefix = getIntent().getStringExtra("prefix");
+        image = getIntent().getStringExtra("image");
 
         displayUserData();
         callPreviousScreen();
@@ -37,7 +40,11 @@ public class OutGoingCallActivity extends AppCompatActivity {
 
     private void displayUserData() {
         fullNameTextView.setText(fullName);
-        prefixTextView.setText(prefix);
+
+        //Adding Glide library to display images
+        Glide.with(getApplicationContext())
+                .load(image)
+                .into(profileImageView);
     }
 
     private void callPreviousScreen() {

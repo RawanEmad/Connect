@@ -15,17 +15,6 @@ public class MessagingService extends FirebaseMessagingService {
         Log.d("FCM", "Token: " + token);
     }
 
-//    @Override
-//    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-//        super.onMessageReceived(remoteMessage);
-//        if (remoteMessage.getNotification() != null) {
-//            Log.d(
-//                    "FCM",
-//                    "Remote Message Received: " + remoteMessage.getNotification().getBody()
-//            );
-//        }
-//    }
-
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // ...
