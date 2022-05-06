@@ -1,8 +1,12 @@
 package com.example.connect.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +22,8 @@ import com.example.connect.listeners.UsersListeners;
 import com.example.connect.models.UserModel;
 import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.response.UserResponse;
+import com.example.connect.utilities.FileUtils;
+import com.example.connect.utilities.RealPathUtil;
 import com.facebook.common.util.UriUtil;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -46,8 +52,20 @@ public class ContactProfileActivity extends AppCompatActivity {
 
     private UsersListeners mUsersListeners;
 
+    private Uri uri;
+
     String id, fullName, phoneNo, image, gender;
-    String selectedImage;
+    String selectedImage, path;
+
+    // Permissions for accessing the storage
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_MEDIA_LOCATION
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,14 +118,29 @@ public class ContactProfileActivity extends AppCompatActivity {
         });
     }
 
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
     private void editProfileImage() {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                verifyStoragePermissions(ContactProfileActivity.this);
                 ImagePicker.Companion.with(ContactProfileActivity.this)
                         .crop()	    			//Crop image(Optional), Check Customization for more option
                         .compress(620)			//Final image size will be less than 1 MB(Optional)
-                        //.maxResultSize(1024, 1024)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .maxResultSize(1024, 1024)	//Final image resolution will be less than 1080 x 1080(Optional)
                         .start();
             }
         });
@@ -117,22 +150,25 @@ public class ContactProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Uri uri = Objects.requireNonNull(data).getData();
-        //selectedImage = uri.toString();
-        selectedImage = UriUtil.getRealPathFromUri(getContentResolver(), uri);
+        uri = Objects.requireNonNull(data).getData();
+        //selectedImage = FileUriUtils.INSTANCE.getRealPath(getApplicationContext(), uri);
+        selectedImage = FileUtils.getPath(ContactProfileActivity.this, uri);
+
+        //selectedImage = UriUtil.getRealPathFromUri(getContentResolver(), uri);
+        //path = RealPathUtil.getRealPathFromURI_API19(getApplicationContext(), uri);
         profileImage.setImageURI(uri);
 
-        uploadFileToServer();
+        uploadFileToServer(selectedImage);
     }
 
-    private void uploadFileToServer() {
+    private void uploadFileToServer(String fileUri) {
         mEditContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                File file = new File(selectedImage);
+                File file = new File(Uri.parse(fileUri).getPath());
                 // create RequestBody instance from file
                 RequestBody requestFile =
-                        RequestBody.create(file, MediaType.parse("image/*"));
+                        RequestBody.create(file, MediaType.parse("multipart/form-file"));
 
                 // MultipartBody.Part is used to send also the actual file name
                 MultipartBody.Part body =

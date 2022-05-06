@@ -84,6 +84,7 @@
         android:orientation="vertical"
         android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:stackFromEnd="true"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/chat_back_btn"
         app:layout_constraintBottom_toBottomOf="@id/view_supporter"/>
