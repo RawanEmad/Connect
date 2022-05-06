@@ -1,7 +1,6 @@
 package com.example.connect.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +13,22 @@ import com.bumptech.glide.Glide;
 import com.example.connect.R;
 import com.example.connect.models.ChatMessages;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private static Context mContext;
+    private Context mContext;
 
-    private final List<ChatMessages> chatMessages;
+    private final ArrayList<ChatMessages> chatMessages;
     private final String receivedProfileImage;
     private final String senderId;
 
     public static final int VIEW_TYPE_SENT = 1;
     public static final int VIEW_TYPE_RECEIVED = 2;
 
-    public ChatAdapter(List<ChatMessages> chatMessages, String receivedProfileImage, String senderId) {
+    public ChatAdapter(ArrayList<ChatMessages> chatMessages, String receivedProfileImage, String senderId) {
         this.chatMessages = chatMessages;
         this.receivedProfileImage = receivedProfileImage;
         this.senderId = senderId;
@@ -42,20 +41,28 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         if (viewType == VIEW_TYPE_SENT) {
             View view = LayoutInflater.from(mContext)
                     .inflate(R.layout.item_container_sent_message, parent, false);
-            return new ChatAdapter.SentMessageViewHolder(view);
+            return new SentMessageViewHolder(view);
         } else {
             View view = LayoutInflater.from(mContext)
                     .inflate(R.layout.item_container_received_message, parent, false);
-            return new ChatAdapter.ReceivedMessageViewHolder(view);
+            return new ReceivedMessageViewHolder(view);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ChatMessages chatMessage = chatMessages.get(position);
+
         if (getItemViewType(position) == VIEW_TYPE_SENT) {
-            ((SentMessageViewHolder) holder).setData(chatMessages.get(position));
+            ((SentMessageViewHolder) holder).getTextMessage().setText(chatMessage.message);
+            ((SentMessageViewHolder) holder).getDateTime().setText(chatMessage.dateTime);
         } else {
-            ((ReceivedMessageViewHolder) holder).setData(chatMessages.get(position), receivedProfileImage);
+            ((ReceivedMessageViewHolder) holder).getTextMessage().setText(chatMessage.message);
+            ((ReceivedMessageViewHolder) holder).getDateTime().setText(chatMessage.dateTime);
+            //Adding Glide library to display images
+            Glide.with(mContext)
+                    .load(receivedProfileImage)
+                    .into(((ReceivedMessageViewHolder) holder).profileImage);
         }
     }
 
@@ -80,8 +87,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         public SentMessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            textMessage = itemView.findViewById(R.id.text_message);
-            dateTime = itemView.findViewById(R.id.text_date_time);
+            textMessage = itemView.findViewById(R.id.sent_message);
+            dateTime = itemView.findViewById(R.id.sent_date_time);
         }
 
         public TextView getTextMessage() {
@@ -90,11 +97,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         public TextView getDateTime() {
             return dateTime;
-        }
-
-        void setData(ChatMessages chatMessages) {
-            getTextMessage().setText(chatMessages.message);
-            getDateTime().setText(chatMessages.dateTime);
         }
     }
 
@@ -117,15 +119,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         public TextView getDateTime() {
             return dateTime;
-        }
-
-        void setData(ChatMessages chatMessages, String receivedProfileImage) {
-            getTextMessage().setText(chatMessages.message);
-            getDateTime().setText(chatMessages.dateTime);
-            //Adding Glide library to display images
-            Glide.with(mContext)
-                    .load(receivedProfileImage)
-                    .into(profileImage);
         }
     }
 }
