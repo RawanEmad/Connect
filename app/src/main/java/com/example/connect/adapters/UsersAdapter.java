@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.connect.R;
 import com.example.connect.ui.ContactProfileActivity;
+import com.example.connect.utilities.Constants;
 import com.example.connect.utilities.SessionManager;
 import com.example.connect.models.UserModel;
 
@@ -71,13 +72,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         holder.getMoreInfo().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Constants.KEY_ID = id;
+                Constants.KEY_FULLNAME = userName;
+                Constants.KEY_PHONENO = phoneNo;
+                Constants.KEY_IMAGE = profileImage;
+                Constants.KEY_GENDER = gender;
+
                 Intent intent = new Intent(view.getContext(), ContactProfileActivity.class);
-                //Pass all fields to the next activity
-                intent.putExtra("id", id);
-                intent.putExtra("fullName", userName);
-                intent.putExtra("phoneNo", phoneNo);
-                intent.putExtra("image", profileImage);
-                intent.putExtra("gender", gender);
                 view.getContext().startActivity(intent);
             }
         });

@@ -53,18 +53,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/contact_prefix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A"
-                android:textColor="@color/gray"
-                android:textSize="50sp"
-                app:layout_constraintBottom_toBottomOf="@id/contact_profile_image"
-                app:layout_constraintEnd_toEndOf="@id/contact_profile_image"
-                app:layout_constraintStart_toStartOf="@id/contact_profile_image"
-                app:layout_constraintTop_toTopOf="@id/contact_profile_image" />
-
-            <TextView
                 android:id="@+id/contact_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +67,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/contact_profile_image" />
 
             <ImageView
-                android:id="@+id/audio_call_btn"
+                android:id="@+id/confirm_btn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="100dp"
@@ -89,7 +77,7 @@
                 android:background="@drawable/user_background"
                 android:backgroundTint="@color/green_accept"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/chat_btn"
+                app:layout_constraintEnd_toStartOf="@id/reject_btn"
                 app:layout_constraintTop_toBottomOf="@+id/contact_name_text_view"/>
 
             <TextView
@@ -100,12 +88,12 @@
                 android:text="@string/confirm"
                 android:textSize="20sp"
                 android:textColor="@color/gray_text2"
-                app:layout_constraintStart_toStartOf="@id/audio_call_btn"
-                app:layout_constraintEnd_toEndOf="@id/audio_call_btn"
-                app:layout_constraintTop_toBottomOf="@id/audio_call_btn"/>
+                app:layout_constraintStart_toStartOf="@id/confirm_btn"
+                app:layout_constraintEnd_toEndOf="@id/confirm_btn"
+                app:layout_constraintTop_toBottomOf="@id/confirm_btn"/>
 
             <ImageView
-                android:id="@+id/chat_btn"
+                android:id="@+id/reject_btn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="100dp"
@@ -114,7 +102,7 @@
                 android:src="@drawable/ic_baseline_close_24"
                 android:background="@drawable/user_background"
                 android:backgroundTint="@color/red_cancel"
-                app:layout_constraintStart_toEndOf="@id/audio_call_btn"
+                app:layout_constraintStart_toEndOf="@id/confirm_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/contact_name_text_view"/>
 
@@ -126,9 +114,9 @@
                 android:text="@string/reject"
                 android:textSize="20sp"
                 android:textColor="@color/gray_text2"
-                app:layout_constraintStart_toStartOf="@id/chat_btn"
-                app:layout_constraintEnd_toEndOf="@id/chat_btn"
-                app:layout_constraintTop_toBottomOf="@id/chat_btn"/>
+                app:layout_constraintStart_toStartOf="@id/reject_btn"
+                app:layout_constraintEnd_toEndOf="@id/reject_btn"
+                app:layout_constraintTop_toBottomOf="@id/reject_btn"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/red_hat_text_bold"
-                android:text="outgoing call"
+                android:text="@string/outgoing_call"
                 android:textColor="@color/black_lighter"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -67,7 +67,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/contact_profile_image" />
 
             <ImageView
-                android:id="@+id/chat_btn"
+                android:id="@+id/cancel_btn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="100dp"
@@ -88,9 +88,9 @@
                 android:text="@string/cancel"
                 android:textSize="20sp"
                 android:textColor="@color/gray_text2"
-                app:layout_constraintStart_toStartOf="@id/chat_btn"
-                app:layout_constraintEnd_toEndOf="@id/chat_btn"
-                app:layout_constraintTop_toBottomOf="@id/chat_btn"/>
+                app:layout_constraintStart_toStartOf="@id/cancel_btn"
+                app:layout_constraintEnd_toEndOf="@id/cancel_btn"
+                app:layout_constraintTop_toBottomOf="@id/cancel_btn"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.connect.R;
+import com.example.connect.utilities.Constants;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -19,7 +20,7 @@ public class OutGoingCallActivity extends AppCompatActivity {
     private TextView fullNameTextView;
     private CircleImageView profileImageView;
 
-    String fullName, image;
+    String id, fullName, phoneNo, image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,11 @@ public class OutGoingCallActivity extends AppCompatActivity {
         fullNameTextView = findViewById(R.id.contact_name_text_view);
         profileImageView = findViewById(R.id.contact_profile_image);
 
-        //Get all the data from Intent
-        fullName = getIntent().getStringExtra("fullName");
-        image = getIntent().getStringExtra("image");
+        //Get all the data
+        id = Constants.KEY_ID;
+        fullName = Constants.KEY_FULLNAME;
+        phoneNo = Constants.KEY_PHONENO;
+        image = Constants.KEY_IMAGE;
 
         displayUserData();
         callPreviousScreen();

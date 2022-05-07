@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,7 +54,7 @@ public class ChatActivity extends AppCompatActivity {
     private SessionManager sessionManager;
     private FirebaseFirestore database;
 
-    String senderId, receiverId, fullName, phoneNo, image, gender;
+    String senderId, receiverId, fullName, phoneNo, image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +68,11 @@ public class ChatActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.chat_progress_bar);
         mBackButton = findViewById(R.id.chat_back_btn);
 
-        //Get all the data from Intent
-        receiverId = getIntent().getStringExtra("id");
-        fullName = getIntent().getStringExtra("fullName");
-        phoneNo = getIntent().getStringExtra("phoneNo");
-        gender = getIntent().getStringExtra("gender");
-        image = getIntent().getStringExtra("image");
+        //Get all the data
+        receiverId = Constants.KEY_ID;
+        fullName = Constants.KEY_FULLNAME;
+        phoneNo = Constants.KEY_PHONENO;
+        image = Constants.KEY_IMAGE;
 
         fullNameTextView.setText(fullName);
 
@@ -158,7 +158,14 @@ public class ChatActivity extends AppCompatActivity {
     };
 
     private void setListeners() {
-        mBackButton.setOnClickListener(v -> onBackPressed());
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChatActivity.this, ContactProfileActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override

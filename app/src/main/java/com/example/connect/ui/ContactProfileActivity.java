@@ -22,6 +22,7 @@ import com.example.connect.listeners.UsersListeners;
 import com.example.connect.models.UserModel;
 import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.response.UserResponse;
+import com.example.connect.utilities.Constants;
 import com.example.connect.utilities.FileUtils;
 import com.example.connect.utilities.RealPathUtil;
 import com.facebook.common.util.UriUtil;
@@ -82,12 +83,12 @@ public class ContactProfileActivity extends AppCompatActivity {
         chat = findViewById(R.id.chat_btn);
         mEditContact = findViewById(R.id.edit_contact_btn);
 
-        //Get all the data from Intent
-        id = getIntent().getStringExtra("id");
-        fullName = getIntent().getStringExtra("fullName");
-        phoneNo = getIntent().getStringExtra("phoneNo");
-        gender = getIntent().getStringExtra("gender");
-        image = getIntent().getStringExtra("image");
+        //Get all the data
+        id = Constants.KEY_ID;
+        fullName = Constants.KEY_FULLNAME;
+        phoneNo = Constants.KEY_PHONENO;
+        gender = Constants.KEY_GENDER;
+        image = Constants.KEY_IMAGE;
 
         //getUser();
         displayUserData();
@@ -203,10 +204,6 @@ public class ContactProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ContactProfileActivity.this, ChatActivity.class);
-                intent.putExtra("id", id);
-                intent.putExtra("fullName", fullName);
-                intent.putExtra("phoneNo", phoneNo);
-                intent.putExtra("image", image);
                 startActivity(intent);
                 finish();
             }
@@ -219,8 +216,6 @@ public class ContactProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //mUsersListeners.initiateAudioMeeting();
                 Intent intent = new Intent(ContactProfileActivity.this, OutGoingCallActivity.class);
-                intent.putExtra("fullName", fullName);
-                intent.putExtra("image", image);
                 startActivity(intent);
                 finish();
             }
@@ -232,8 +227,6 @@ public class ContactProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ContactProfileActivity.this, OutGoingCallActivity.class);
-                intent.putExtra("fullName", fullName);
-                intent.putExtra("image", image);
                 startActivity(intent);
                 finish();
             }
