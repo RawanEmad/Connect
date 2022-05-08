@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="edit_profile_btn" type="id" />
+    <item name="edit_pass_btn" type="id" />
+    <item name="notifications_btn" type="id" />
+    <item name="delete_account_btn" type="id" />
+</resources>

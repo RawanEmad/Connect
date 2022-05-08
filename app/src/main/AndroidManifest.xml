@@ -22,6 +22,24 @@
         android:theme="@style/Theme.Connect"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.ForgetPasswordSuccessMessage"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SetNewPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.UpdatePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ChatActivity"
             android:exported="false" />
         <activity

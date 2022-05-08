@@ -19,6 +19,12 @@
     <string name="create_one">Create one</string>
     <string name="remember_me">Remember me</string>
     <string name="forget_password">Forget password</string>
+    <string name="forget_ur_password">Forget\npassword</string>
+    <string name="forget_password_details">Provide your accounts\'s email for which you want to reset your password</string>
+    <string name="new_credentials">New\nCredentials</string>
+    <string name="new_credentials_details">Your identity has been verified!\nSet your new password</string>
+    <string name="password_updated">Password\nupdated</string>
+    <string name="password_updated_details">Your password has been updated!</string>
     <string name="app_logo">app logo</string>
     <string name="user_phone">+201092222223</string>
     <string name="otp_text">Please enter the verification\ncode sent to</string>
@@ -42,7 +48,14 @@
     <string name="confirm">Confirm</string>
     <string name="incoming_call">incoming call</string>
     <string name="cancel">Cancel</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Log Out</string>
     <string name="type_a_message">Type a message</string>
     <string name="outgoing_call">outgoing call</string>
+    <string name="my_profile">My Profile</string>
+    <string name="update">Update</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="new_password">New Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="notifications">Notifications</string>
 </resources>

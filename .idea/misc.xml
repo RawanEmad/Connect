@@ -27,6 +27,7 @@
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.1255" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_https_24.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.1315" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_logout_24.xml" value="0.1225" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_person_add_24.xml" value="0.133" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_phone_24.xml" value="0.21666666666666667" />
@@ -44,14 +45,21 @@
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_contact_profile.xml" value="0.152" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_contacts.xml" value="0.2" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_dashboard.xml" value="0.24010416666666667" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_edit_profile.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_forget_pass_success.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_forget_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_incoming_call.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_join_meeting.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_login.xml" value="0.25025641025641027" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_main.xml" value="0.2388888888888889" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_new_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_otp_verification.xml" value="0.25025641025641027" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_out_going_call.xml" value="0.24010416666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_start_up_screen.xml" value="0.264" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_update_password.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_user_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/background_chat_input.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/contacts_list_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/gender_list_items.xml" value="0.25416666666666665" />

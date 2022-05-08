@@ -27,7 +27,7 @@ import retrofit2.Response;
 public class ContactsActivity extends AppCompatActivity {
 
     //variables
-    private ImageView mBackButton;
+    private ImageView mBackButton, mSettingsButton;
     private TextView mContactsLength;
     private RecyclerView mRecyclerView;
 
@@ -40,6 +40,7 @@ public class ContactsActivity extends AppCompatActivity {
 
         mBackButton = findViewById(R.id.contacts_back_btn);
         mContactsLength = findViewById(R.id.my_contacts_text);
+        mSettingsButton = findViewById(R.id.settings_btn);
         mRecyclerView = findViewById(R.id.users_recycler_view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -47,8 +48,19 @@ public class ContactsActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         callPreviousScreen();
+        callSettingsScreen();
 
         getAllUsers();
+    }
+
+    private void callSettingsScreen() {
+        mSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ContactsActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void callPreviousScreen() {

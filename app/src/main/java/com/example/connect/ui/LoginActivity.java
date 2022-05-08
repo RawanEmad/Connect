@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     //variables
     private ImageView mBackButton;
     private Button mLoginButton;
-    private TextView mRegisterButton;
+    private TextView mRegisterButton, mForgetPassword;
     private CheckBox mRememberMe;
     private ProgressBar mProgressBar;
 
@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton = findViewById(R.id.login_btn);
         mRegisterButton = findViewById(R.id.register_text_view);
         mRememberMe = findViewById(R.id.remember_me_check_box);
+        mForgetPassword = findViewById(R.id.forget_ur_pass);
         mProgressBar = findViewById(R.id.login_progress_bar);
 
         //declare data variables
@@ -69,6 +70,17 @@ public class LoginActivity extends AppCompatActivity {
         callPreviousScreen();
         callMainScreen();
         callRegisterScreen();
+        callForgetPasswordScreen();
+    }
+
+    private void callForgetPasswordScreen() {
+        mForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private boolean validateFields(){

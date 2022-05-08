@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.EditProfileActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="45dp"
+            android:paddingBottom="36dp"
+            android:transitionName="transition_profile"
+            tools:context=".ui.EditProfileActivity">
+
+            <ImageView
+                android:id="@+id/profile_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/back_button"
+                android:padding="5dp"
+                android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/settings_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="Settings"
+                android:textColor="@color/black_lighter"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_profile_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="50dp"
+                android:src="@color/blue_video"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="1.5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings_text_view" />
+
+            <TextView
+                android:id="@+id/user_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/full_name"
+                android:textColor="@color/black_lighter"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_profile_image" />
+
+            <TextView
+                android:id="@+id/user_phone_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/user_phone"
+                android:textColor="@color/gray_text"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_name_text_view" />
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_text"
+                app:layout_constraintBottom_toTopOf="@id/edit_profile_img"
+                app:layout_constraintTop_toBottomOf="@id/user_phone_text_view" />
+
+            <ImageButton
+                android:id="@+id/edit_profile_img"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/background_chat_input"
+                android:backgroundTint="@color/gray"
+                android:src="@drawable/ic_baseline_person_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_phone_text_view"
+                app:tint="@color/black_lighter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/edit_profile"
+                android:textColor="@color/black_lighter"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/edit_profile_img"
+                app:layout_constraintStart_toEndOf="@id/edit_profile_img"
+                app:layout_constraintTop_toTopOf="@id/edit_profile_img" />
+
+            <ImageView
+                android:id="@id/edit_profile_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:layout_constraintBottom_toBottomOf="@id/edit_profile_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/edit_profile_img"
+                app:tint="@color/black_lighter" />
+
+            <ImageButton
+                android:id="@+id/edit_pass_img"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_chat_input"
+                android:backgroundTint="@color/gray"
+                android:src="@drawable/ic_baseline_https_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_profile_img"
+                app:tint="@color/black_lighter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/change_password"
+                android:textColor="@color/black_lighter"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/edit_pass_img"
+                app:layout_constraintStart_toEndOf="@id/edit_pass_img"
+                app:layout_constraintTop_toTopOf="@id/edit_pass_img" />
+
+            <ImageView
+                android:id="@id/edit_pass_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:layout_constraintBottom_toBottomOf="@id/edit_pass_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/edit_pass_img"
+                app:tint="@color/black_lighter" />
+
+            <ImageButton
+                android:id="@+id/notifications_img"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_chat_input"
+                android:backgroundTint="@color/gray"
+                android:src="@drawable/ic_baseline_notifications_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_pass_img"
+                app:tint="@color/black_lighter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/notifications"
+                android:textColor="@color/black_lighter"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/notifications_img"
+                app:layout_constraintStart_toEndOf="@id/notifications_img"
+                app:layout_constraintTop_toTopOf="@id/notifications_img" />
+
+            <ImageView
+                android:id="@id/notifications_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:layout_constraintBottom_toBottomOf="@id/notifications_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/notifications_img"
+                app:tint="@color/black_lighter" />
+
+            <ImageButton
+                android:id="@+id/delete_account_img"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_chat_input"
+                android:backgroundTint="@color/gray"
+                android:src="@drawable/ic_baseline_delete_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/notifications_img"
+                app:tint="@color/black_lighter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="Delete Account"
+                android:textColor="@color/black_lighter"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/delete_account_img"
+                app:layout_constraintStart_toEndOf="@id/delete_account_img"
+                app:layout_constraintTop_toTopOf="@id/delete_account_img" />
+
+            <ImageView
+                android:id="@id/delete_account_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:layout_constraintBottom_toBottomOf="@id/delete_account_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/delete_account_img"
+                app:tint="@color/black_lighter" />
+
+
+            <ImageButton
+                android:id="@+id/logout_img"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_chat_input"
+                android:backgroundTint="@color/gray"
+                android:src="@drawable/ic_baseline_logout_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/delete_account_img"
+                app:tint="@color/black_lighter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/logout"
+                android:textColor="@color/black_lighter"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/logout_img"
+                app:layout_constraintStart_toEndOf="@id/logout_img"
+                app:layout_constraintTop_toTopOf="@id/logout_img" />
+
+            <ImageView
+                android:id="@id/delete_account_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                app:layout_constraintBottom_toBottomOf="@id/logout_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/logout_img"
+                app:tint="@color/black_lighter" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

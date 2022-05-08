@@ -28,6 +28,20 @@
         <item name="hintTextColor">@color/white_70</item>
     </style>
 
+    <style name="TextInputLayouts2" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxStrokeColor">@color/black_lighter</item>
+        <item name="boxStrokeWidth">0.8dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="startIconTint">@color/black_lighter</item>
+        <item name="endIconTint">@color/black_lighter</item>
+        <item name="android:textColorHint">@color/black_lighter</item>
+        <item name="hintTextColor">@color/black_lighter</item>
+    </style>
+
     <style name="RoundedSquare">
         <item name="cornerSize">50%</item>
     </style>
