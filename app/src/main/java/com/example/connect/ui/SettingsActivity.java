@@ -47,6 +47,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SettingsActivity.this, UpdatePasswordActivity.class);
+                //Pass all fields to the next activity
+                intent.putExtra("activity", "Settings");
                 startActivity(intent);
             }
         });

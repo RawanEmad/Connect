@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
+                    hideDialog();
                     Toast.makeText(LoginActivity.this, "Login Not Completed! Try again.", Toast.LENGTH_SHORT).show();
                 }
             }

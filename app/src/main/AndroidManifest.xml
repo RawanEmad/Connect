@@ -25,9 +25,6 @@
             android:name=".ui.ForgetPasswordSuccessMessage"
             android:exported="false" />
         <activity
-            android:name=".ui.SetNewPasswordActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.ForgetPasswordActivity"
             android:exported="false" />
         <activity

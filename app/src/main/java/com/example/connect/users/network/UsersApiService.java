@@ -11,7 +11,9 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -35,10 +37,13 @@ public interface UsersApiService {
     @GET("api/users/{mobile}")
     Call<UserResponse> getUser(@Path("mobile") String mobile, @Header("api_key") String api_key);
 
+    @FormUrlEncoded
     @PATCH("api/users/{mobile}")
-    Call<UserResponse> editUser(@Path("mobile") String mobile,
-                                       @FieldMap Map<String, Object> map,
-                                       @Header("api_key") String api_key);
+    Call<UserResponse> editPassword(@Path("mobile") String mobile, @Field("password") String password, @Header("api_key") String api_key);
+
+    @FormUrlEncoded
+    @PATCH("api/users/{mobile}")
+    Call<UserResponse> editUser(@Path("mobile") String mobile, @FieldMap Map<String, Object> map, @Header("api_key") String api_key);
 
     @Multipart
     @Headers({

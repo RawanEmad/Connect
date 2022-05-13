@@ -33,7 +33,9 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ForgetPasswordActivity.this, SetNewPasswordActivity.class);
+                Intent intent = new Intent(ForgetPasswordActivity.this, UpdatePasswordActivity.class);
+                //Pass all fields to the next activity
+                intent.putExtra("activity", "ForgetPassword");
                 startActivity(intent);
             }
         });
