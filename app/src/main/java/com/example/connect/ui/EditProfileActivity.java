@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,15 +20,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.connect.R;
-import com.example.connect.models.UserModel;
 import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.response.UserResponse;
-import com.example.connect.utilities.FileUtils;
 import com.example.connect.utilities.SessionManager;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -48,13 +49,13 @@ public class EditProfileActivity extends AppCompatActivity {
     private FloatingActionButton mFloatingActionButton;
 
     private SessionManager sessionManager;
-    private Uri uri;
-    private String selectedImage;
+    private Uri selectedfile;
 
     private String id, fullName, phoneNo, password, image, gender;
+    private String newFullName, newPhoneNo, newProfileImage, encodedImage, newGender;
     private final HashMap userMap = new HashMap();
 
-    String[] genderListItems = {"Male","Female"};
+    String[] genderListItems = {"Male", "Female"};
     ArrayAdapter<String> mArrayAdapter;
     private String _gender;
 
@@ -132,20 +133,36 @@ public class EditProfileActivity extends AppCompatActivity {
                 .into(mProfileImage);
     }
 
+    private void updateUserSession() {
+        if (isProfileImageChanged()) {
+            image = newProfileImage;
+        }
+        if (isNameChanged()) {
+            fullName = newFullName;
+        }
+        if (isPhoneChanged()) {
+            phoneNo = newPhoneNo;
+        }
+        if (isGenderChanged()) {
+            gender = newGender;
+        }
+        //create login session
+        sessionManager = new SessionManager(EditProfileActivity.this, SessionManager.SESSION_USERSESSION);
+        sessionManager.createLoginSession(id, fullName, phoneNo, password, image, gender);
+    }
+
     private void updateUserData() {
         mUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isNameChanged() || isPhoneChanged() || isGenderChanged()) {
+                if (isProfileImageChanged() || isNameChanged() || isPhoneChanged() || isGenderChanged()) {
                     Call<UserResponse> editUserCall = UsersApiClient.getService().editUser(phoneNo,
-                           userMap, UsersApiClient.API_KEY);
+                            userMap, UsersApiClient.API_KEY);
                     editUserCall.enqueue(new Callback<UserResponse>() {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                             if (response.isSuccessful()) {
-                                //create login session
-                                sessionManager = new SessionManager(EditProfileActivity.this, SessionManager.SESSION_USERSESSION);
-                                sessionManager.createLoginSession(id, fullName, phoneNo, password, image, gender);
+                                updateUserSession();
                                 Toast.makeText(EditProfileActivity.this, "Data has been updated", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -162,10 +179,19 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
+    private boolean isProfileImageChanged() {
+        if (newProfileImage != null) {
+            userMap.put("image", newProfileImage);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private boolean isNameChanged() {
         if (!fullName.equals(mFullName.getEditText().getText().toString())) {
-            fullName = mFullName.getEditText().getText().toString();
-            userMap.put("name", fullName);
+            newFullName = mFullName.getEditText().getText().toString();
+            userMap.put("name", newFullName);
             return true;
         } else {
             return false;
@@ -174,8 +200,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private boolean isPhoneChanged() {
         if (!phoneNo.equals(mPhoneNo.getEditText().getText().toString())) {
-            phoneNo = mPhoneNo.getEditText().getText().toString();
-            userMap.put("mobile", phoneNo);
+            newPhoneNo = mPhoneNo.getEditText().getText().toString();
+            userMap.put("mobile", newPhoneNo);
             return true;
         } else {
             return false;
@@ -184,8 +210,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private boolean isGenderChanged() {
         if (!gender.equals(mGender.getText().toString())) {
-            gender = mGender.getText().toString();
-            userMap.put("gender", gender);
+            newGender = mGender.getText().toString();
+            userMap.put("gender", newGender);
             return true;
         } else {
             return false;
@@ -212,9 +238,9 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 verifyStoragePermissions(EditProfileActivity.this);
                 ImagePicker.Companion.with(EditProfileActivity.this)
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-                        .compress(620)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1024, 1024)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .crop()                    //Crop image(Optional), Check Customization for more option
+                        .compress(620)            //Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1024, 1024)    //Final image resolution will be less than 1080 x 1080(Optional)
                         .start();
             }
         });
@@ -224,13 +250,14 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        uri = Objects.requireNonNull(data).getData();
-        //selectedImage = FileUriUtils.INSTANCE.getRealPath(getApplicationContext(), uri);
-        selectedImage = FileUtils.getPath(EditProfileActivity.this, uri);
+        selectedfile = Objects.requireNonNull(data).getData();
 
-        //selectedImage = UriUtil.getRealPathFromUri(getContentResolver(), uri);
-        //path = RealPathUtil.getRealPathFromURI_API19(getApplicationContext(), uri);
-        mProfileImage.setImageURI(uri);
+        if (selectedfile != null) {
+            mProfileImage.setImageURI(selectedfile);
+            newProfileImage = selectedfile.toString();
+
+            Log.d("Encoded string", "Encoded string: " + newProfileImage);
+        }
+
     }
-
 }

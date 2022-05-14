@@ -48,25 +48,10 @@ public class ContactProfileActivity extends AppCompatActivity {
     private TextView phoneNoTextView;
     private CircleImageView profileImage;
     private ImageView mBackButton, audioCall, videoCall, chat;
-    private FloatingActionButton mFloatingActionButton;
     private Button mEditContact;
 
     private UsersListeners mUsersListeners;
-
-    private Uri uri;
-
     String id, fullName, phoneNo, image, gender;
-    String selectedImage, path;
-
-    // Permissions for accessing the storage
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_MEDIA_LOCATION
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +62,6 @@ public class ContactProfileActivity extends AppCompatActivity {
         fullNameTextView = findViewById(R.id.contact_name_text_view);
         phoneNoTextView = findViewById(R.id.contact_phone_text_view);
         profileImage = findViewById(R.id.contact_profile_image);
-        mFloatingActionButton = findViewById(R.id.fab_edit);
         audioCall = findViewById(R.id.audio_call_btn);
         videoCall = findViewById(R.id.video_call_btn);
         chat = findViewById(R.id.chat_btn);
@@ -93,7 +77,6 @@ public class ContactProfileActivity extends AppCompatActivity {
         //getUser();
         displayUserData();
         callPreviousScreen();
-        editProfileImage();
         initiateAudioMeeting();
         initiateVideoMeeting();
         chatUser();
@@ -115,86 +98,6 @@ public class ContactProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ContactProfileActivity.this, ContactsActivity.class);
                 startActivity(intent);
-            }
-        });
-    }
-
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-    }
-
-    private void editProfileImage() {
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                verifyStoragePermissions(ContactProfileActivity.this);
-                ImagePicker.Companion.with(ContactProfileActivity.this)
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-                        .compress(620)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1024, 1024)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        uri = Objects.requireNonNull(data).getData();
-        //selectedImage = FileUriUtils.INSTANCE.getRealPath(getApplicationContext(), uri);
-        selectedImage = FileUtils.getPath(ContactProfileActivity.this, uri);
-
-        //selectedImage = UriUtil.getRealPathFromUri(getContentResolver(), uri);
-        //path = RealPathUtil.getRealPathFromURI_API19(getApplicationContext(), uri);
-        profileImage.setImageURI(uri);
-
-        uploadFileToServer(selectedImage);
-    }
-
-    private void uploadFileToServer(String fileUri) {
-        mEditContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                File file = new File(Uri.parse(fileUri).getPath());
-                // create RequestBody instance from file
-                RequestBody requestFile =
-                        RequestBody.create(file, MediaType.parse("multipart/form-file"));
-
-                // MultipartBody.Part is used to send also the actual file name
-                MultipartBody.Part body =
-                        MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-
-                Call<UserModel> uploadFileCall = UsersApiClient.getService().uploadUserImage(phoneNo,
-                        body, UsersApiClient.API_KEY);
-                uploadFileCall.enqueue(new Callback<UserModel>() {
-                    @Override
-                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                        Toast.makeText(ContactProfileActivity.this, "Successful upload", Toast.LENGTH_SHORT).show();
-                        if (response.isSuccessful()) {
-                            Log.d("uploadImage", "Response: " + response.body());
-                        } else {
-                            Log.d("uploadImage", "Response code: " + response.code() + ", Response:" + response.body());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserModel> call, Throwable t) {
-                        Log.d("uploadImage", "Response: " + t.getLocalizedMessage());
-                        Toast.makeText(ContactProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
             }
         });
     }
