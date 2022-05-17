@@ -19,7 +19,7 @@ public class DashboardActivity extends AppCompatActivity {
     //variables
     private ImageView mBackButton;
     private TextView mUserText;
-    private Button mRoomsButton, mContactsButton;
+    private Button mRoomsButton, mContactsButton, mChatsButton;
 
     private SessionManager sessionManager;
 
@@ -32,18 +32,29 @@ public class DashboardActivity extends AppCompatActivity {
         mUserText = findViewById(R.id.dashboard_text_view);
         mRoomsButton = findViewById(R.id.rooms_btn);
         mContactsButton = findViewById(R.id.contacts_btn);
+        mChatsButton = findViewById(R.id.chats_btn);
 
         sessionManager = new SessionManager(DashboardActivity.this, SessionManager.SESSION_USERSESSION);
         HashMap<String, String> usersDetails = sessionManager.getUserDetailsFromSession();
 
         String fullName = usersDetails.get(SessionManager.KEY_FULLNAME);
-        String phoneNo = usersDetails.get(SessionManager.KEY_PHONENO);
 
         mUserText.setText("Hi "+ fullName);
 
         callPreviousScreen();
         callRoomsScreen();
         callContactsScreen();
+        callChatsScreen();
+    }
+
+    private void callChatsScreen() {
+        mChatsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardActivity.this, RecentConversationsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void callContactsScreen() {

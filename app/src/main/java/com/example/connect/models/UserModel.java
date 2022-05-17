@@ -29,6 +29,8 @@ public class UserModel {
         this.profileImage = profileImage;
     }
 
+    public UserModel() {}
+
     public String getUserId() {
         return userId;
     }

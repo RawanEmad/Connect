@@ -33,8 +33,8 @@ public class OutGoingCallActivity extends AppCompatActivity {
 
         //Get all the data
         id = Constants.KEY_ID;
-        fullName = Constants.KEY_FULLNAME;
-        phoneNo = Constants.KEY_PHONENO;
+        fullName = Constants.KEY_FULL_NAME;
+        phoneNo = Constants.KEY_PHONE_NO;
         image = Constants.KEY_IMAGE;
 
         displayUserData();

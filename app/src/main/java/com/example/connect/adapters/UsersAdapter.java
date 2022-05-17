@@ -43,7 +43,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
         currentUserId = usersDetails.get(SessionManager.KEY_ID);
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.users_list_item, parent, false);
+                .inflate(R.layout.item_container_users, parent, false);
         return new UsersViewHolder(view);
     }
 
@@ -73,8 +73,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
             @Override
             public void onClick(View view) {
                 Constants.KEY_ID = id;
-                Constants.KEY_FULLNAME = userName;
-                Constants.KEY_PHONENO = phoneNo;
+                Constants.KEY_FULL_NAME = userName;
+                Constants.KEY_PHONE_NO = phoneNo;
                 Constants.KEY_IMAGE = profileImage;
                 Constants.KEY_GENDER = gender;
 

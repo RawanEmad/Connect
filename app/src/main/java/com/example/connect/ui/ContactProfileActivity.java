@@ -1,15 +1,9 @@
 package com.example.connect.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,25 +13,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.connect.R;
 import com.example.connect.listeners.UsersListeners;
-import com.example.connect.models.UserModel;
 import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.response.UserResponse;
 import com.example.connect.utilities.Constants;
-import com.example.connect.utilities.FileUtils;
-import com.example.connect.utilities.RealPathUtil;
-import com.facebook.common.util.UriUtil;
-import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.File;
-import java.util.Objects;
-
-import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,7 +30,6 @@ public class ContactProfileActivity extends AppCompatActivity {
     private ImageView mBackButton, audioCall, videoCall, chat;
     private Button mEditContact;
 
-    private UsersListeners mUsersListeners;
     String id, fullName, phoneNo, image, gender;
 
     @Override
@@ -69,8 +48,8 @@ public class ContactProfileActivity extends AppCompatActivity {
 
         //Get all the data
         id = Constants.KEY_ID;
-        fullName = Constants.KEY_FULLNAME;
-        phoneNo = Constants.KEY_PHONENO;
+        fullName = Constants.KEY_FULL_NAME;
+        phoneNo = Constants.KEY_PHONE_NO;
         gender = Constants.KEY_GENDER;
         image = Constants.KEY_IMAGE;
 
@@ -107,6 +86,7 @@ public class ContactProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ContactProfileActivity.this, ChatActivity.class);
+                intent.putExtra("activity", "contactProfile");
                 startActivity(intent);
                 finish();
             }

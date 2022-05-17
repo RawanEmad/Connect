@@ -9,7 +9,7 @@ public class UsersApiClient {
 
     public static final String BASE_URL = "https://backend-api-tabarani.herokuapp.com/";
     //API KEY
-    public final static String API_KEY = "382395e75d624fb1478303451bc7543314ffffac6372c2aa9beb22f687e6e886b77b3ee84aeeb1a8aabad9647686d0baaa4d9a7c65ff6ef1ebc71fcde7bac14b";
+    public final static String API_KEY = "64a2fb17debfd9dd178b80e5d31d4efe84b6dd14971ea836";
     private static Retrofit retrofit = null;
 
 

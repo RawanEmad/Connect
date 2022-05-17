@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chat_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="@color/light_whitee"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="10dp"
+    app:cardMaxElevation="12dp"
+    app:cardPreventCornerOverlap="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/recent_chat_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@color/blue_video"
+            app:civ_border_width="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/recent_chat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="User Name"
+            android:textColor="@color/black_lighter"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/recent_message_text"
+            app:layout_constraintStart_toEndOf="@id/recent_chat_image"
+            app:layout_constraintTop_toTopOf="@id/recent_chat_image" />
+
+        <TextView
+            android:id="@+id/recent_message_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Recent message"
+            android:textColor="@color/black_lighter"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/recent_chat_image"
+            app:layout_constraintStart_toEndOf="@id/recent_chat_image"
+            app:layout_constraintTop_toBottomOf="@id/recent_chat_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

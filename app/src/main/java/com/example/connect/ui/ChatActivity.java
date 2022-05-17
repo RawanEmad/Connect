@@ -1,13 +1,10 @@
 package com.example.connect.ui;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,23 +20,21 @@ import com.example.connect.adapters.ChatAdapter;
 import com.example.connect.models.ChatMessages;
 import com.example.connect.utilities.Constants;
 import com.example.connect.utilities.SessionManager;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class ChatActivity extends AppCompatActivity {
 
     private TextView fullNameTextView;
@@ -54,7 +49,7 @@ public class ChatActivity extends AppCompatActivity {
     private SessionManager sessionManager;
     private FirebaseFirestore database;
 
-    String senderId, receiverId, fullName, phoneNo, image;
+    String senderId, senderName, senderImage, receiverId, fullName, phoneNo, image, conversationId, previousActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +63,13 @@ public class ChatActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.chat_progress_bar);
         mBackButton = findViewById(R.id.chat_back_btn);
 
+        //Get data from Intent
+        previousActivity = getIntent().getStringExtra("activity");
+
         //Get all the data
         receiverId = Constants.KEY_ID;
-        fullName = Constants.KEY_FULLNAME;
-        phoneNo = Constants.KEY_PHONENO;
+        fullName = Constants.KEY_FULL_NAME;
+        phoneNo = Constants.KEY_PHONE_NO;
         image = Constants.KEY_IMAGE;
 
         fullNameTextView.setText(fullName);
@@ -89,6 +87,8 @@ public class ChatActivity extends AppCompatActivity {
         sessionManager = new SessionManager(getApplicationContext(), SessionManager.SESSION_USERSESSION);
         HashMap<String, String> usersDetails = sessionManager.getUserDetailsFromSession();
         senderId = usersDetails.get(SessionManager.KEY_ID);
+        senderName = usersDetails.get(SessionManager.KEY_FULLNAME);
+        senderImage = usersDetails.get(SessionManager.KEY_IMAGE);
         chatMessages = new ArrayList<ChatMessages>();
         chatAdapter = new ChatAdapter(chatMessages, image, senderId);
         mRecyclerView.setAdapter(chatAdapter);
@@ -105,6 +105,20 @@ public class ChatActivity extends AppCompatActivity {
             .addOnSuccessListener(documentReference -> {
                 Toast.makeText(ChatActivity.this, "Message sent ", Toast.LENGTH_SHORT).show();
             });
+        if (conversationId != null) {
+            updateConversation(inputMessage.getText().toString());
+        } else {
+            HashMap<String, Object> conversation = new HashMap<>();
+            conversation.put(Constants.KEY_SENDER_ID, senderId);
+            conversation.put(Constants.KEY_SENDER_NAME, senderName);
+            conversation.put(Constants.KEY_SENDER_IMAGE, senderImage);
+            conversation.put(Constants.KEY_RECEIVER_ID, receiverId);
+            conversation.put(Constants.KEY_RECEIVER_NAME, fullName);
+            conversation.put(Constants.KEY_RECEIVER_IMAGE, image);
+            conversation.put(Constants.KEY_LAST_MESSAGE, inputMessage.getText().toString());
+            conversation.put(Constants.KEY_TIMESTAMP, new Date());
+            addConversation(conversation);
+        }
         inputMessage.setText(null);
     }
 
@@ -139,10 +153,8 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessage.dateTime = getReadableDateTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     chatMessages.add(chatMessage);
-                    Log.d("Firestore chat", chatMessage.message);
+                    //Log.d("Firestore chat", chatMessage.message);
                 }
-                //mRecyclerView.setAdapter(chatAdapter);
-                //chatAdapter.notifyDataSetChanged();
                 Log.d("Firestore check", String.valueOf(chatAdapter.getItemCount()));
             }
             Collections.sort(chatMessages, (obj1, obj2) -> obj1.dateObject.compareTo(obj2.dateObject));
@@ -155,6 +167,46 @@ public class ChatActivity extends AppCompatActivity {
             mRecyclerView.setVisibility(View.VISIBLE);
         }
         mProgressBar.setVisibility(View.GONE);
+        if (conversationId == null) {
+            checkForConversation();
+        }
+    };
+
+    private void addConversation(HashMap<String, Object> conversation) {
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .add(conversation)
+                .addOnSuccessListener(documentReference -> conversationId = documentReference.getId());
+    }
+
+    private void updateConversation(String message) {
+        DocumentReference documentReference =
+                database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversationId);
+        documentReference.update(
+                Constants.KEY_LAST_MESSAGE, message,
+                Constants.KEY_TIMESTAMP, new Date()
+        );
+    }
+
+    private void checkForConversation() {
+        if (chatMessages.size() != 0) {
+            checkForConversationRemotely(senderId, receiverId);
+            checkForConversationRemotely(receiverId, senderId);
+        }
+    }
+
+    private void checkForConversationRemotely(String senderId, String receiverId) {
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+                .get()
+                .addOnCompleteListener(conversationsOnCompleteListener);
+    }
+
+    private final OnCompleteListener<QuerySnapshot> conversationsOnCompleteListener = task -> {
+        if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
+            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+            conversationId = documentSnapshot.getId();
+        }
     };
 
     private void setListeners() {

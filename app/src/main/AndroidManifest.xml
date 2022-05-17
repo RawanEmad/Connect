@@ -22,6 +22,9 @@
         android:theme="@style/Theme.Connect"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.RecentConversationsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ForgetPasswordSuccessMessage"
             android:exported="false" />
         <activity
