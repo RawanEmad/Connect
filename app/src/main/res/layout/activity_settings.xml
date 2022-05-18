@@ -86,19 +86,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_text"
-                app:layout_constraintBottom_toTopOf="@id/edit_profile_img"
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toTopOf="@id/edit_profile_layout"
                 app:layout_constraintTop_toBottomOf="@id/user_phone_text_view" />
+
+            <FrameLayout
+                android:id="@+id/edit_profile_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/separator">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/edit_profile_img"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/background_chat_input"
                 android:backgroundTint="@color/gray"
                 android:src="@drawable/ic_baseline_person_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_phone_text_view"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/black_lighter" />
 
             <TextView
@@ -123,6 +134,20 @@
                 app:layout_constraintTop_toTopOf="@id/edit_profile_img"
                 app:tint="@color/black_lighter" />
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/edit_pass_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edit_profile_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <ImageButton
                 android:id="@+id/edit_pass_img"
                 android:layout_width="45dp"
@@ -132,7 +157,7 @@
                 android:backgroundTint="@color/gray"
                 android:src="@drawable/ic_baseline_https_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_profile_img"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/black_lighter" />
 
             <TextView
@@ -157,6 +182,19 @@
                 app:layout_constraintTop_toTopOf="@id/edit_pass_img"
                 app:tint="@color/black_lighter" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/notifications_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edit_pass_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <ImageButton
                 android:id="@+id/notifications_img"
                 android:layout_width="45dp"
@@ -166,7 +204,7 @@
                 android:backgroundTint="@color/gray"
                 android:src="@drawable/ic_baseline_notifications_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_pass_img"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/black_lighter" />
 
             <TextView
@@ -191,6 +229,19 @@
                 app:layout_constraintTop_toTopOf="@id/notifications_img"
                 app:tint="@color/black_lighter" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/delete_account_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/notifications_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <ImageButton
                 android:id="@+id/delete_account_img"
                 android:layout_width="45dp"
@@ -200,7 +251,7 @@
                 android:backgroundTint="@color/gray"
                 android:src="@drawable/ic_baseline_delete_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/notifications_img"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/black_lighter" />
 
             <TextView
@@ -225,6 +276,19 @@
                 app:layout_constraintTop_toTopOf="@id/delete_account_img"
                 app:tint="@color/black_lighter" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/logout_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/delete_account_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
 
             <ImageButton
                 android:id="@+id/logout_img"
@@ -235,7 +299,7 @@
                 android:backgroundTint="@color/gray"
                 android:src="@drawable/ic_baseline_logout_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/delete_account_img"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/black_lighter" />
 
             <TextView
@@ -259,6 +323,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/logout_img"
                 app:tint="@color/black_lighter" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

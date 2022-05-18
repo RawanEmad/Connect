@@ -11,6 +11,7 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -45,10 +46,6 @@ public interface UsersApiService {
     @PATCH("api/users/{mobile}")
     Call<UserResponse> editUser(@Path("mobile") String mobile, @FieldMap Map<String, Object> map, @Header("api_key") String api_key);
 
-    @Multipart
-    @Headers({
-            "Content-Type: application/json"
-    })
-    @PATCH("api/users/image/{mobile}")
-    Call<UserModel> uploadUserImage(@Path("mobile") String mobile, @Part MultipartBody.Part image, @Header("api_key") String api_key);
+    @DELETE("api/users/{mobile}")
+    Call<UserResponse> deleteUser(@Path("mobile") String mobile, @Header("api_key") String api_key);
 }

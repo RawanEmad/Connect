@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_lighter"
+    android:background="@drawable/background_app"
     tools:context=".ui.OtpVerificationActivity">
 
     <ScrollView
@@ -90,6 +90,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/otp_text_view" />
+
             <com.chaos.view.PinView
                 android:id="@+id/pin_view"
                 style="@style/PinWidget.PinView"
@@ -110,7 +111,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_no_text_view"
-                app:lineColor="@color/purple" />
+                app:lineColor="@color/purple_lighter_50" />
 
 
             <androidx.appcompat.widget.AppCompatButton

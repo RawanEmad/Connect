@@ -78,9 +78,32 @@ public class ChatActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
+        checkPreviousActivity();
         initChat();
         setListeners();
         listenMessages();
+    }
+
+    private void checkPreviousActivity() {
+        if (previousActivity.equals("recentConversations")) {
+            mBackButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ChatActivity.this, RecentConversationsActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        } else if (previousActivity.equals("contactProfile")) {
+            mBackButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ChatActivity.this, ContactProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }
     }
 
     private void initChat() {
@@ -210,15 +233,6 @@ public class ChatActivity extends AppCompatActivity {
     };
 
     private void setListeners() {
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ChatActivity.this, ContactProfileActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

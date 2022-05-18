@@ -42,7 +42,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
     //data variables
     private PinView mPinView;
     private String codeBySystem;
-    String fullName, phoneNo, password, gender;
+    String fullName, phoneNo, password, gender, previousActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,8 @@ public class OtpVerificationActivity extends AppCompatActivity {
         phoneNo = getIntent().getStringExtra("phoneNo");
         password = getIntent().getStringExtra("password");
         gender = getIntent().getStringExtra("gender");
+
+        previousActivity = getIntent().getStringExtra("activity");
 
         String completePhoneNo = "+" + phoneNo;
 
@@ -181,8 +183,6 @@ public class OtpVerificationActivity extends AppCompatActivity {
                 String code = Objects.requireNonNull(mPinView.getText()).toString();
                 if (!code.isEmpty()) {
                     verifyCode(code);
-//                    Intent intent = new Intent(OtpVerificationActivity.this, ContactsActivity.class);
-//                    startActivity(intent);
                 }
             }
         });
