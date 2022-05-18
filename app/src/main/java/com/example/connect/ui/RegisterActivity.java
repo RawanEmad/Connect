@@ -14,10 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.connect.R;
+import com.example.connect.users.network.UsersApiClient;
+import com.example.connect.users.response.UserResponse;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -62,7 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 _gender = adapterView.getItemAtPosition(position).toString();
-                Toast.makeText(adapterView.getContext(), "You selected: " + _gender, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -181,8 +186,25 @@ public class RegisterActivity extends AppCompatActivity {
                 intent.putExtra("phoneNo", _phoneNo);
                 intent.putExtra("password", _password);
                 intent.putExtra("gender", _gender);
+                intent.putExtra("activity", "Register");
 
-                startActivity(intent);
+                Call<UserResponse> userResponseCall = UsersApiClient.getService().getUser(_phoneNo, UsersApiClient.API_KEY);
+                userResponseCall.enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(RegisterActivity.this, "Phone Number already exists!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Toast.makeText(RegisterActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

@@ -3,7 +3,6 @@ package com.example.connect.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -95,7 +94,9 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                             if (response.isSuccessful()) {
-                                Toast.makeText(UpdatePasswordActivity.this, "Password Updated", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(UpdatePasswordActivity.this, UpdatePasswordSuccessMessage.class);
+                                startActivity(intent);
+                                finish();
                             }
                         }
 
@@ -178,7 +179,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         mUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UpdatePasswordActivity.this, ForgetPasswordSuccessMessage.class);
+                Intent intent = new Intent(UpdatePasswordActivity.this, UpdatePasswordSuccessMessage.class);
                 startActivity(intent);
             }
         });

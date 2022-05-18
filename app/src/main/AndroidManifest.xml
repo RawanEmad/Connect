@@ -25,7 +25,7 @@
             android:name=".ui.RecentConversationsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.ForgetPasswordSuccessMessage"
+            android:name=".ui.UpdatePasswordSuccessMessage"
             android:exported="false" />
         <activity
             android:name=".ui.ForgetPasswordActivity"

@@ -57,13 +57,17 @@ public class OtpVerificationActivity extends AppCompatActivity {
         //declare data variables
         mPinView = findViewById(R.id.pin_view);
 
-        //Get all the data from Intent
-        fullName = getIntent().getStringExtra("fullName");
-        phoneNo = getIntent().getStringExtra("phoneNo");
-        password = getIntent().getStringExtra("password");
-        gender = getIntent().getStringExtra("gender");
-
         previousActivity = getIntent().getStringExtra("activity");
+
+        //Get all the data from Intent
+        if (previousActivity.equals("ForgetPassword")) {
+            phoneNo = getIntent().getStringExtra("phoneNo");
+        } else if (previousActivity.equals("Register")) {
+            fullName = getIntent().getStringExtra("fullName");
+            phoneNo = getIntent().getStringExtra("phoneNo");
+            password = getIntent().getStringExtra("password");
+            gender = getIntent().getStringExtra("gender");
+        }
 
         String completePhoneNo = "+" + phoneNo;
 
@@ -125,16 +129,23 @@ public class OtpVerificationActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //Verification completed successfully here Either
                             //store the data or do whatever desire
-                            RegisterRequest registerRequest = new RegisterRequest();
-                            registerRequest.setFullName(fullName);
-                            registerRequest.setPhoneNo(phoneNo);
-                            registerRequest.setPassword(password);
-                            registerRequest.setGender(gender);
+                            if (previousActivity.equals("ForgetPassword")) {
+                                Intent intent = new Intent(OtpVerificationActivity.this, UpdatePasswordActivity.class);
+                                intent.putExtra("activity", "ForgetPassword");
+                                startActivity(intent);
+                                finish();
+                            } else if (previousActivity.equals("Register")) {
+                                RegisterRequest registerRequest = new RegisterRequest();
+                                registerRequest.setFullName(fullName);
+                                registerRequest.setPhoneNo(phoneNo);
+                                registerRequest.setPassword(password);
+                                registerRequest.setGender(gender);
 
-                            registerUser(registerRequest);
+                                registerUser(registerRequest);
+                            }
 
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(OtpVerificationActivity.this, "signInWithCredential:success.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(OtpVerificationActivity.this, "Verification Completed", Toast.LENGTH_SHORT).show();
                         } else {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(OtpVerificationActivity.this, "Verification Not Completed! Try again.", Toast.LENGTH_SHORT).show();

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.connect.R;
 
-public class ForgetPasswordSuccessMessage extends AppCompatActivity {
+public class UpdatePasswordSuccessMessage extends AppCompatActivity {
 
     //variables
     private Button mLoginButton;
@@ -17,7 +17,7 @@ public class ForgetPasswordSuccessMessage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_pass_success);
+        setContentView(R.layout.activity_update_pass_success);
 
         //declare variables
         mLoginButton = findViewById(R.id.pass_updated_login_btn);
@@ -29,7 +29,7 @@ public class ForgetPasswordSuccessMessage extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ForgetPasswordSuccessMessage.this, LoginActivity.class);
+                Intent intent = new Intent(UpdatePasswordSuccessMessage.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
