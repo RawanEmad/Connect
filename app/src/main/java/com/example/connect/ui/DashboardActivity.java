@@ -17,7 +17,6 @@ import java.util.HashMap;
 public class DashboardActivity extends AppCompatActivity {
 
     //variables
-    private ImageView mBackButton;
     private TextView mUserText;
     private Button mRoomsButton, mContactsButton, mChatsButton;
 
@@ -28,7 +27,6 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        mBackButton = findViewById(R.id.dashboard_back_btn);
         mUserText = findViewById(R.id.dashboard_text_view);
         mRoomsButton = findViewById(R.id.rooms_btn);
         mContactsButton = findViewById(R.id.contacts_btn);
@@ -41,7 +39,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         mUserText.setText("Hi "+ fullName);
 
-        callPreviousScreen();
         callRoomsScreen();
         callContactsScreen();
         callChatsScreen();
@@ -72,16 +69,6 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DashboardActivity.this, JoinMeetingActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void callPreviousScreen() {
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });

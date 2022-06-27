@@ -45,7 +45,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private CircleImageView mProfileImage;
     private TextInputLayout mFullName, mPhoneNo;
     private AutoCompleteTextView mGender;
-    private Button mUpdateButton;
+    private Button mUpdateButton, mCancelButton;
     private FloatingActionButton mFloatingActionButton;
 
     private SessionManager sessionManager;
@@ -76,6 +76,7 @@ public class EditProfileActivity extends AppCompatActivity {
         //declare variables
         mBackButton = findViewById(R.id.profile_back_btn);
         mUpdateButton = findViewById(R.id.update_btn);
+        mCancelButton = findViewById(R.id.edit_profile_cancel);
 
         //declare data variables
         mFullName = findViewById(R.id.register_input_full_name);
@@ -104,6 +105,13 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void callPreviousScreen() {
         mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditProfileActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditProfileActivity.this, SettingsActivity.class);

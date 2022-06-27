@@ -29,7 +29,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
     private ImageView mArrowBack;
     private TextView mTextView;
     private TextInputLayout mCurrentPassword, mNewPassword, mConfirmPassword;
-    private Button mUpdateButton;
+    private Button mUpdateButton, mCancelButton;
 
     private SessionManager sessionManager;
     private String id, fullName, phoneNo, password, image, gender;
@@ -47,6 +47,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         mNewPassword = findViewById(R.id.input_new_pass);
         mConfirmPassword = findViewById(R.id.input_confirm_pass);
         mUpdateButton = findViewById(R.id.btn_update_pass);
+        mCancelButton = findViewById(R.id.update_pass_cancel);
 
         //Get all the data from Intent
         previousActivity = getIntent().getStringExtra("activity");
@@ -187,6 +188,13 @@ public class UpdatePasswordActivity extends AppCompatActivity {
 
     private void callPreviousScreen() {
         mArrowBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UpdatePasswordActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UpdatePasswordActivity.this, SettingsActivity.class);

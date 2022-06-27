@@ -165,7 +165,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/register_input_gender" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/cancel_btn"
+                android:id="@+id/edit_profile_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
