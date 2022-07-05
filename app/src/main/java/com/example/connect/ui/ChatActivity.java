@@ -1,33 +1,59 @@
 package com.example.connect.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.devlomi.record_view.OnRecordListener;
+import com.devlomi.record_view.RecordButton;
+import com.devlomi.record_view.RecordView;
 import com.example.connect.R;
 import com.example.connect.adapters.ChatAdapter;
 import com.example.connect.models.ChatMessages;
 import com.example.connect.utilities.Constants;
+import com.example.connect.utilities.Permissions;
 import com.example.connect.utilities.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,14 +66,30 @@ public class ChatActivity extends AppCompatActivity {
     private TextView fullNameTextView;
     private ImageView mBackButton;
     private RecyclerView mRecyclerView;
-    private FrameLayout sendMessageBtn;
+    private AppCompatImageView sendMessageBtn;
     private ProgressBar mProgressBar;
     private EditText inputMessage;
+
+    private RecordButton recordButton;
+    private RecordView recordView;
+    private MediaRecorder mediaRecorder = null;
+    private String audioPath = null;
 
     private ArrayList<ChatMessages> chatMessages;
     private ChatAdapter chatAdapter;
     private SessionManager sessionManager;
     private FirebaseFirestore database;
+
+    private StorageReference storageReference;
+    private DatabaseReference databaseReference;
+
+    // Permissions for accessing the storage
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final String[] PERMISSIONS_REQUEST = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO
+    };
 
     String senderId, senderName, senderImage, receiverId, fullName, phoneNo, image, conversationId, previousActivity;
 
@@ -59,9 +101,11 @@ public class ChatActivity extends AppCompatActivity {
         fullNameTextView = findViewById(R.id.receiver_name_text);
         mRecyclerView = findViewById(R.id.chat_recycler_view);
         inputMessage = findViewById(R.id.input_message);
-        sendMessageBtn = findViewById(R.id.layout_send);
+        sendMessageBtn = findViewById(R.id.send_text_btn);
         mProgressBar = findViewById(R.id.chat_progress_bar);
         mBackButton = findViewById(R.id.chat_back_btn);
+        recordButton = findViewById(R.id.record_btn);
+        recordView = findViewById(R.id.record_view);
 
         //Get data from Intent
         previousActivity = getIntent().getStringExtra("activity");
@@ -74,12 +118,40 @@ public class ChatActivity extends AppCompatActivity {
 
         fullNameTextView.setText(fullName);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Uploads");
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
+        inputMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0) {
+                    sendMessageBtn.setVisibility(View.GONE);
+                    recordButton.setVisibility(View.VISIBLE);
+
+                } else {
+                    recordButton.setVisibility(View.GONE);
+                    sendMessageBtn.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         checkPreviousActivity();
         initChat();
+        initRecording();
         setListeners();
         listenMessages();
     }
@@ -123,6 +195,7 @@ public class ChatActivity extends AppCompatActivity {
         message.put(Constants.KEY_SENDER_ID, senderId);
         message.put(Constants.KEY_RECEIVER_ID, receiverId);
         message.put(Constants.KEY_MESSAGE, inputMessage.getText().toString());
+        message.put(Constants.KEY_TYPE, "text");
         message.put(Constants.KEY_TIMESTAMP, new Date());
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message)
             .addOnSuccessListener(documentReference -> {
@@ -143,6 +216,174 @@ public class ChatActivity extends AppCompatActivity {
             addConversation(conversation);
         }
         inputMessage.setText(null);
+    }
+
+    public static void verifyPermissions(Activity activity) {
+        // Check if we have write permission
+        int recordRermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO);
+        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (recordRermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED
+            || writePermission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_REQUEST,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
+    private void initRecording() {
+        recordButton.setRecordView(recordView);
+        recordButton.setListenForRecord(false);
+
+        recordButton.setOnClickListener(View -> {
+            verifyPermissions(ChatActivity.this);
+            recordButton.setListenForRecord(true);
+//            if (permissions.isRecordingOk(ChatActivity.this)) {
+//                recordButton.setListenForRecord(true);
+//            } else {
+//                permissions.requestRecording(ChatActivity.this);
+//            }
+        });
+
+        recordView.setOnRecordListener(new OnRecordListener() {
+            @Override
+            public void onStart() {
+                //Start Recording..
+                Log.d("RecordView", "onStart");
+
+                setUpRecording();
+
+                try {
+                    mediaRecorder.prepare();
+                    mediaRecorder.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                inputMessage.setVisibility(View.GONE);
+                recordView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancel() {
+                //On Swipe To Cancel
+                Log.d("RecordView", "onCancel");
+
+                try {
+                    mediaRecorder.reset();
+                    mediaRecorder.release();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                File file = new File(audioPath);
+                if (file.exists())
+                    file.delete();
+
+                recordView.setVisibility(View.GONE);
+                inputMessage.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish(long recordTime) {
+                //Stop Recording..
+                Log.d("RecordView", "onFinish");
+
+                try {
+                    mediaRecorder.stop();
+                    mediaRecorder.release();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                recordView.setVisibility(View.GONE);
+                inputMessage.setVisibility(View.VISIBLE);
+
+                sendRecodingMessage(audioPath);
+            }
+
+            @Override
+            public void onLessThanSecond() {
+                //When the record time is less than One Second
+                Log.d("RecordView", "onLessThanSecond");
+
+                try {
+                    mediaRecorder.reset();
+                    mediaRecorder.release();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                File file = new File(audioPath);
+                if (file.exists())
+                    file.delete();
+
+                recordView.setVisibility(View.GONE);
+                inputMessage.setVisibility(View.VISIBLE);
+            }
+        });
+
+    }
+
+    private void setUpRecording() {
+
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music");
+
+        if (!file.exists())
+            file.mkdirs();
+        audioPath = file.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".mp3";
+
+        mediaRecorder.setOutputFile(audioPath);
+    }
+
+    private void sendRecodingMessage(String audioPath) {
+        if (conversationId == null)
+            Toast.makeText(this, "Send simple message first", Toast.LENGTH_SHORT).show();
+        else {
+            StorageReference reference = storageReference.child("Uploads/" + conversationId + "/Media/Recording/" + System.currentTimeMillis());
+            Uri audioFile = Uri.fromFile(new File(audioPath));
+
+            reference.putFile(audioFile).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("FirebaseStorage", e.getMessage());
+                }
+            });
+            reference.putFile(audioFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> audioUrl = taskSnapshot.getStorage().getDownloadUrl();
+
+                    audioUrl.addOnCompleteListener(path -> {
+                        if (path.isSuccessful()) {
+                            Log.d("FirebaseStorage", "path successful");
+                            String url = path.getResult().toString();
+                            if (conversationId == null) {
+                                initChat();
+                            } else {
+                                HashMap<String, Object> voiceMessage = new HashMap<>();
+                                voiceMessage.put(Constants.KEY_SENDER_ID, senderId);
+                                voiceMessage.put(Constants.KEY_RECEIVER_ID, receiverId);
+                                voiceMessage.put(Constants.KEY_MESSAGE, url);
+                                voiceMessage.put(Constants.KEY_TYPE, "recording");
+                                voiceMessage.put(Constants.KEY_TIMESTAMP, new Date());
+                                databaseReference.push().setValue(voiceMessage);
+                                Toast.makeText(ChatActivity.this, "Voice Message sent", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private String getReadableDateTime(Date date) {

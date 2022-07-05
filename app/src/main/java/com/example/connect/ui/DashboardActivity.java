@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.example.connect.R;
 import com.example.connect.utilities.SessionManager;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory;
 
 import java.util.HashMap;
 
@@ -38,6 +41,12 @@ public class DashboardActivity extends AppCompatActivity {
         String fullName = usersDetails.get(SessionManager.KEY_FULLNAME);
 
         mUserText.setText("Hi "+ fullName);
+
+        //Firebase app check
+        FirebaseApp.initializeApp(/*context=*/ this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                SafetyNetAppCheckProviderFactory.getInstance());
 
         callRoomsScreen();
         callContactsScreen();

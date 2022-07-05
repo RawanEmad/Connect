@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.connect.R;
-import com.example.connect.listeners.UsersListeners;
 import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.response.UserResponse;
 import com.example.connect.utilities.Constants;

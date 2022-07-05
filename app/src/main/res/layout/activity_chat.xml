@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/view_supporter"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/chat_back_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/chat_info_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/receiver_name_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -110,11 +110,21 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/send_text_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
-            android:padding="8dp"
+            android:visibility="gone"
+            android:padding="9dp"
             android:src="@drawable/ic_round_send_24"
+            android:tint="@color/white"/>
+
+        <com.devlomi.record_view.RecordButton
+            android:id="@+id/record_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:src="@drawable/ic_baseline_mic_24"
             android:tint="@color/white"/>
 
     </FrameLayout>
@@ -135,6 +145,21 @@
         android:paddingEnd="16dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white_60"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/layout_send"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.devlomi.record_view.RecordView
+        android:id="@+id/record_view"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="35dp"
+        android:visibility="gone"
+        app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
+        app:slide_to_cancel_arrow_color="@color/purple_lighter"
+        app:slide_to_cancel_text="Slide to cancel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/layout_send"
         app:layout_constraintBottom_toBottomOf="parent"/>

@@ -8,10 +8,14 @@ public class Constants {
     public static String KEY_IMAGE = "profileImage";
     public static String KEY_GENDER = "gender";
 
+    public static int STORAGE_REQUEST_CODE = 1000;
+    public static int RECORDING_REQUEST_CODE = 3000;
+
     public static final String KEY_COLLECTION_CHAT = "chat";
     public static final String KEY_SENDER_ID = "senderId";
     public static final String KEY_RECEIVER_ID = "receiverId";
     public static final String KEY_MESSAGE = "message";
+    public static final String KEY_TYPE = "type";
     public static final String KEY_TIMESTAMP = "timestamp";
 
     public static final String KEY_COLLECTION_CONVERSATIONS = "conversations";

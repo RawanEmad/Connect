@@ -28,6 +28,7 @@
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_https_24.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.1315" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_logout_24.xml" value="0.1225" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_mic_24.xml" value="0.124" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.21666666666666667" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_person_add_24.xml" value="0.133" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/drawable/ic_baseline_phone_24.xml" value="0.21666666666666667" />
@@ -52,6 +53,7 @@
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_join_meeting.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_login.xml" value="0.25025641025641027" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_main.xml" value="0.2388888888888889" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_media_recorder.xml" value="0.11302083333333333" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_new_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_otp_verification.xml" value="0.25025641025641027" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/activity_out_going_call.xml" value="0.24010416666666667" />
