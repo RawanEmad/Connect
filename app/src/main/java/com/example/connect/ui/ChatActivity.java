@@ -32,14 +32,11 @@ import com.example.connect.R;
 import com.example.connect.adapters.ChatAdapter;
 import com.example.connect.models.ChatMessages;
 import com.example.connect.utilities.Constants;
-import com.example.connect.utilities.Permissions;
 import com.example.connect.utilities.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentChange;
@@ -91,7 +88,7 @@ public class ChatActivity extends AppCompatActivity {
             Manifest.permission.RECORD_AUDIO
     };
 
-    String senderId, senderName, senderImage, receiverId, fullName, phoneNo, image, conversationId, previousActivity;
+    String senderId, senderName, senderImage, receiverId, messageType, fullName, phoneNo, image, conversationId, previousActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +112,7 @@ public class ChatActivity extends AppCompatActivity {
         fullName = Constants.KEY_FULL_NAME;
         phoneNo = Constants.KEY_PHONE_NO;
         image = Constants.KEY_IMAGE;
+        messageType = Constants.KEY_TYPE;
 
         fullNameTextView.setText(fullName);
 
@@ -185,7 +183,7 @@ public class ChatActivity extends AppCompatActivity {
         senderName = usersDetails.get(SessionManager.KEY_FULLNAME);
         senderImage = usersDetails.get(SessionManager.KEY_IMAGE);
         chatMessages = new ArrayList<ChatMessages>();
-        chatAdapter = new ChatAdapter(chatMessages, image, senderId);
+        chatAdapter = new ChatAdapter(chatMessages, image, senderId, messageType);
         mRecyclerView.setAdapter(chatAdapter);
         database = FirebaseFirestore.getInstance();
     }
@@ -220,11 +218,11 @@ public class ChatActivity extends AppCompatActivity {
 
     public static void verifyPermissions(Activity activity) {
         // Check if we have write permission
-        int recordRermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO);
+        int recordPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO);
         int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
         int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        if (recordRermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED
+        if (recordPermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED
             || writePermission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
@@ -349,7 +347,7 @@ public class ChatActivity extends AppCompatActivity {
         if (conversationId == null)
             Toast.makeText(this, "Send simple message first", Toast.LENGTH_SHORT).show();
         else {
-            StorageReference reference = storageReference.child("Uploads/" + conversationId + "/Media/Recording/" + System.currentTimeMillis());
+            StorageReference reference = storageReference.child(conversationId + "/Media/Recording/" + System.currentTimeMillis());
             Uri audioFile = Uri.fromFile(new File(audioPath));
 
             reference.putFile(audioFile).addOnFailureListener(new OnFailureListener() {
@@ -377,7 +375,11 @@ public class ChatActivity extends AppCompatActivity {
                                 voiceMessage.put(Constants.KEY_TYPE, "recording");
                                 voiceMessage.put(Constants.KEY_TIMESTAMP, new Date());
                                 databaseReference.push().setValue(voiceMessage);
-                                Toast.makeText(ChatActivity.this, "Voice Message sent", Toast.LENGTH_SHORT).show();
+                                Log.d("FirebaseStorage", voiceMessage.toString());
+                                database.collection(Constants.KEY_COLLECTION_CHAT).add(voiceMessage)
+                                        .addOnSuccessListener(documentReference -> {
+                                            Toast.makeText(ChatActivity.this, "Voice Message sent ", Toast.LENGTH_SHORT).show();
+                                        });
                             }
                         }
                     });
@@ -414,10 +416,11 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessage.senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     chatMessage.receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
+                    chatMessage.type = documentChange.getDocument().getString(Constants.KEY_TYPE);
                     chatMessage.dateTime = getReadableDateTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     chatMessages.add(chatMessage);
-                    //Log.d("Firestore chat", chatMessage.message);
+                    Log.d("Firestore chat", chatMessage.message);
                 }
                 Log.d("Firestore check", String.valueOf(chatAdapter.getItemCount()));
             }

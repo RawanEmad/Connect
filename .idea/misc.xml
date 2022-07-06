@@ -68,9 +68,11 @@
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/contacts_list_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/gender_list_items.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/item_container_received_message.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/item_container_received_voice.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/item_container_recent_conversations.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/item_container_recieved_message.xml" value="0.16834755624515127" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/item_container_sent_message.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android projects/Connect/app/src/main/res/layout/item_container_sent_voice.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/layout/users_list_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Android projects/Connect/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1315" />
       </map>
