@@ -25,6 +25,7 @@ public class SessionManager {
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_IMAGE = "profileImage";
     public static final String KEY_GENDER = "gender";
+    public static final String KEY_FCM_TOKEN = "fcmToken";
 
     //Remember Me variables
     private static final String IS_REMEMBERME = "IsRememberMe";
@@ -57,6 +58,11 @@ public class SessionManager {
         mEditor.commit();
     }
 
+    public void updateUserToken(String fcmToken) {
+        mEditor.putString(KEY_FCM_TOKEN, fcmToken);
+        mEditor.commit();
+    }
+
     public HashMap<String, String> getUserDetailsFromSession() {
         HashMap<String, String> userData = new HashMap<String, String>();
 
@@ -66,12 +72,13 @@ public class SessionManager {
         userData.put(KEY_PASSWORD, usersSession.getString(KEY_PASSWORD, null));
         userData.put(KEY_IMAGE, usersSession.getString(KEY_IMAGE, null));
         userData.put(KEY_GENDER, usersSession.getString(KEY_GENDER, null));
+        userData.put(KEY_FCM_TOKEN, usersSession.getString(KEY_FCM_TOKEN, null));
 
         return userData;
     }
 
     public boolean checkLogin() {
-        if(usersSession.getBoolean(IS_LOGIN, true)){
+        if(usersSession.getBoolean(IS_LOGIN, true) && !usersSession.getString(KEY_FCM_TOKEN, null).equals("no")){
             return true;
         } else
             return false;

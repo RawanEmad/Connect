@@ -40,6 +40,10 @@ public interface UsersApiService {
 
     @FormUrlEncoded
     @PATCH("api/users/{mobile}")
+    Call<UserResponse> updateToken(@Path("mobile") String mobile, @Field("fcm") String token, @Header("api_key") String api_key);
+
+    @FormUrlEncoded
+    @PATCH("api/users/{mobile}")
     Call<UserResponse> editPassword(@Path("mobile") String mobile, @Field("password") String password, @Header("api_key") String api_key);
 
     @FormUrlEncoded

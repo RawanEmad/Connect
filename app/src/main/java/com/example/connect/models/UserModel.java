@@ -20,13 +20,17 @@ public class UserModel {
     @SerializedName("image")
     @Expose
     private String profileImage;
+    @Expose
+    @SerializedName("fcm")
+    private String fcmToken;
 
-    public UserModel(String userId, String fullName, String phoneNo, String gender, String profileImage) {
+    public UserModel(String userId, String fullName, String phoneNo, String gender, String profileImage, String fcmToken) {
         this.userId = userId;
         this.fullName = fullName;
         this.phoneNo = phoneNo;
         this.gender = gender;
         this.profileImage = profileImage;
+        this.fcmToken = fcmToken;
     }
 
     public UserModel() {}
@@ -71,14 +75,11 @@ public class UserModel {
         this.profileImage = profileImage;
     }
 
-    @Override
-    public String toString() {
-        return "UserModel{" +
-                "userId='" + userId + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", phoneNo='" + phoneNo + '\'' +
-                ", gender='" + gender + '\'' +
-                ", profileImage='" + profileImage + '\'' +
-                '}';
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 }

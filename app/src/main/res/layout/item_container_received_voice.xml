@@ -23,7 +23,7 @@
         app:enableVisualizer="true"
         app:visualizationPlayedColor="@color/purple_lighter"
         app:visualizationNotPlayedColor="@color/gray_lighter"
-        app:playPauseBackgroundColor="@color/purple_lighter"
+        app:playPauseBackgroundColor="@color/black_new"
         app:timingBackgroundColor="@color/purple_lighter_50"
         app:seekBarProgressColor="#000"
         app:showShareButton="false"

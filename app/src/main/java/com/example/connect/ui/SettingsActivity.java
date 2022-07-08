@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -84,6 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 deleteUserAccount();
+                                Toast.makeText(SettingsActivity.this, "Account deleted successfully", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                                 startActivity(intent);
                             }
@@ -100,6 +102,24 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    private void logOutUser() {
+        Call<UserResponse> updatePasswordCall = UsersApiClient.getService().updateToken(phoneNo,
+                "no", UsersApiClient.API_KEY);
+        updatePasswordCall.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful()) {
+                    sessionManager.logoutFromUserSession();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Toast.makeText(SettingsActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void callLogoutUser() {
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +130,10 @@ public class SettingsActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                logOutUser();
                                 Toast.makeText(SettingsActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
