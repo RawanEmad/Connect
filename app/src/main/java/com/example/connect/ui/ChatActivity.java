@@ -30,7 +30,11 @@ import com.devlomi.record_view.RecordButton;
 import com.devlomi.record_view.RecordView;
 import com.example.connect.R;
 import com.example.connect.adapters.ChatAdapter;
+import com.example.connect.firebase.network.FirebaseMessagingClient;
+import com.example.connect.firebase.network.NotificationResponse;
 import com.example.connect.models.ChatMessages;
+import com.example.connect.users.network.UsersApiClient;
+import com.example.connect.users.response.UserResponse;
 import com.example.connect.utilities.Constants;
 import com.example.connect.utilities.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,6 +52,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,6 +66,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -88,7 +101,8 @@ public class ChatActivity extends AppCompatActivity {
             Manifest.permission.RECORD_AUDIO
     };
 
-    String senderId, senderName, senderImage, receiverId, messageType, fullName, phoneNo, image, conversationId, previousActivity;
+    String senderId, senderName, senderImage, receiverId, senderToken, receiverToken,
+            messageType, fullName, phoneNo, image, conversationId, previousActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +126,7 @@ public class ChatActivity extends AppCompatActivity {
         fullName = Constants.KEY_FULL_NAME;
         phoneNo = Constants.KEY_PHONE_NO;
         image = Constants.KEY_IMAGE;
+        receiverToken = Constants.KEY_FCM_TOKEN;
         messageType = Constants.KEY_TYPE;
 
         fullNameTextView.setText(fullName);
@@ -176,12 +191,51 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    private void showToast(String message) {
+        Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void sendNotification(JsonObject messageBody) {
+        Call<NotificationResponse> notificationResponseCall = FirebaseMessagingClient.getService().sendRemoteMessage(
+                Constants.getRemoteMsgHeaders(),
+                messageBody);
+        notificationResponseCall.enqueue(new Callback<NotificationResponse>() {
+            @Override
+            public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        if (response.body() != null) {
+                            JSONObject responseJSON = new JSONObject(response.body().toString());
+                            JSONArray results = responseJSON.getJSONArray("results");
+                            if (responseJSON.getInt("failure") == 1) {
+                                JSONObject error = (JSONObject) results.get(0);
+                                showToast(error.getString("error"));
+                                return;
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    showToast("Notification sent successfully");
+                } else {
+                    showToast("Error :" + response.code() + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationResponse> call, Throwable t) {
+                showToast(t.getLocalizedMessage());
+            }
+        });
+    }
+
     private void initChat() {
         sessionManager = new SessionManager(getApplicationContext(), SessionManager.SESSION_USERSESSION);
         HashMap<String, String> usersDetails = sessionManager.getUserDetailsFromSession();
         senderId = usersDetails.get(SessionManager.KEY_ID);
         senderName = usersDetails.get(SessionManager.KEY_FULLNAME);
         senderImage = usersDetails.get(SessionManager.KEY_IMAGE);
+        senderToken = usersDetails.get(SessionManager.KEY_FCM_TOKEN);
         chatMessages = new ArrayList<ChatMessages>();
         chatAdapter = new ChatAdapter(chatMessages, image, senderId, messageType);
         mRecyclerView.setAdapter(chatAdapter);
@@ -197,7 +251,7 @@ public class ChatActivity extends AppCompatActivity {
         message.put(Constants.KEY_TIMESTAMP, new Date());
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message)
             .addOnSuccessListener(documentReference -> {
-                Toast.makeText(ChatActivity.this, "Message sent ", Toast.LENGTH_SHORT).show();
+                showToast("Message sent ");
             });
         if (conversationId != null) {
             updateConversation(inputMessage.getText().toString());
@@ -213,6 +267,27 @@ public class ChatActivity extends AppCompatActivity {
             conversation.put(Constants.KEY_TIMESTAMP, new Date());
             addConversation(conversation);
         }
+
+        if (!receiverToken.equals("no") && !receiverToken.equals("fcmToken")) {
+            try {
+                JsonObject data = new JsonObject();
+                data.addProperty("userId", senderId);
+                data.addProperty("name", senderName);
+                data.addProperty("fcmToken", senderToken);
+                data.addProperty("message", inputMessage.getText().toString());
+
+                JsonObject body = new JsonObject();
+                body.add(Constants.REMOTE_MSG_DATA, data);
+                body.addProperty(Constants.REMOTE_MSG_REGISTRATION_IDS, receiverToken);
+                Log.d("fcmToken", "receiverToken: " + receiverToken + "\nbody: " + body);
+
+                sendNotification(body);
+            } catch (Exception exception) {
+                showToast(exception.getMessage());
+            }
+        } else
+            Log.d("fcmToken", "receiverToken: " + receiverToken);
+
         inputMessage.setText(null);
     }
 
@@ -345,7 +420,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendRecodingMessage(String audioPath) {
         if (conversationId == null)
-            Toast.makeText(this, "Send simple message first", Toast.LENGTH_SHORT).show();
+            showToast("Send simple message first");
         else {
             StorageReference reference = storageReference.child(conversationId + "/Media/Recording/" + System.currentTimeMillis());
             Uri audioFile = Uri.fromFile(new File(audioPath));
@@ -378,7 +453,7 @@ public class ChatActivity extends AppCompatActivity {
                                 Log.d("FirebaseStorage", voiceMessage.toString());
                                 database.collection(Constants.KEY_COLLECTION_CHAT).add(voiceMessage)
                                         .addOnSuccessListener(documentReference -> {
-                                            Toast.makeText(ChatActivity.this, "Voice Message sent ", Toast.LENGTH_SHORT).show();
+                                            showToast("Voice Message sent ");
                                         });
                             }
                         }

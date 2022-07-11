@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FirebaseMessagingClient {
 
-    public static final String BASE_URL = "https://fcm.googleapis.com/";
+    public static final String BASE_URL = "https://fcm.googleapis.com/fcm/";
     private static Retrofit retrofit = null;
 
 

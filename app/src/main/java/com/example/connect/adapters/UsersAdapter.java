@@ -56,6 +56,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         String profileImage = userResponse.getProfileImage();
         String phoneNo = userResponse.getPhoneNo();
         String gender = userResponse.getGender();
+        String fcmToken = userResponse.getFcmToken();
 
         if (currentUserId.equals(id)) {
             holder.getUserName().setVisibility(View.GONE);
@@ -77,6 +78,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
                 Constants.KEY_PHONE_NO = phoneNo;
                 Constants.KEY_IMAGE = profileImage;
                 Constants.KEY_GENDER = gender;
+                Constants.KEY_FCM_TOKEN = fcmToken;
 
                 Intent intent = new Intent(view.getContext(), ContactProfileActivity.class);
                 view.getContext().startActivity(intent);
