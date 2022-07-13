@@ -272,8 +272,8 @@ public class ChatActivity extends AppCompatActivity {
             try {
                 JsonObject data = new JsonObject();
                 data.addProperty("userId", senderId);
-                data.addProperty("name", senderName);
-                data.addProperty("fcmToken", senderToken);
+                data.addProperty("userName", senderName);
+                data.addProperty("userToken", senderToken);
                 data.addProperty("message", inputMessage.getText().toString());
 
                 JsonObject body = new JsonObject();
@@ -455,6 +455,26 @@ public class ChatActivity extends AppCompatActivity {
                                         .addOnSuccessListener(documentReference -> {
                                             showToast("Voice Message sent ");
                                         });
+
+                                if (!receiverToken.equals("no") && !receiverToken.equals("fcmToken")) {
+                                    try {
+                                        JsonObject data = new JsonObject();
+                                        data.addProperty("userId", senderId);
+                                        data.addProperty("userName", senderName);
+                                        data.addProperty("userToken", senderToken);
+                                        data.addProperty("message", "voice message");
+
+                                        JsonObject body = new JsonObject();
+                                        body.add(Constants.REMOTE_MSG_DATA, data);
+                                        body.addProperty(Constants.REMOTE_MSG_REGISTRATION_IDS, receiverToken);
+                                        Log.d("fcmToken", "receiverToken: " + receiverToken + "\nbody: " + body);
+
+                                        sendNotification(body);
+                                    } catch (Exception exception) {
+                                        showToast(exception.getMessage());
+                                    }
+                                } else
+                                    Log.d("fcmToken", "receiverToken: " + receiverToken);
                             }
                         }
                     });
