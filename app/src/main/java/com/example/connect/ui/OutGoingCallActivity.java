@@ -1,8 +1,12 @@
 package com.example.connect.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +21,14 @@ import com.example.connect.utilities.Constants;
 import com.example.connect.utilities.SessionManager;
 import com.google.gson.JsonObject;
 
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+import org.jitsi.meet.sdk.JitsiMeetUserInfo;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -31,8 +42,8 @@ public class OutGoingCallActivity extends AppCompatActivity {
     private CircleImageView profileImageView;
 
     private SessionManager sessionManager;
-    private String id, fullName, phoneNo, image, receiverToken, meetingType,
-                senderId, senderName, senderImage, senderToken;
+    private String id, fullName, phoneNo, image, receiverToken, meetingType, meetingRoom,
+                senderId, senderName, senderImage, senderPhone, senderToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +67,7 @@ public class OutGoingCallActivity extends AppCompatActivity {
         getSenderData();
         displayUserData();
         initiateMeeting(meetingType, receiverToken);
-        callPreviousScreen();
+        setListeners();
     }
 
     private void getSenderData() {
@@ -65,6 +76,7 @@ public class OutGoingCallActivity extends AppCompatActivity {
         senderId = usersDetails.get(SessionManager.KEY_ID);
         senderName = usersDetails.get(SessionManager.KEY_FULLNAME);
         senderImage = usersDetails.get(SessionManager.KEY_IMAGE);
+        senderPhone = usersDetails.get(SessionManager.KEY_PHONENO);
         senderToken = usersDetails.get(SessionManager.KEY_FCM_TOKEN);
     }
 
@@ -77,7 +89,7 @@ public class OutGoingCallActivity extends AppCompatActivity {
                 .into(profileImageView);
     }
 
-    private void callPreviousScreen() {
+    private void setListeners() {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,8 +100,7 @@ public class OutGoingCallActivity extends AppCompatActivity {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OutGoingCallActivity.this, ContactProfileActivity.class);
-                startActivity(intent);
+                cancelInvitation(receiverToken);
             }
         });
     }
@@ -108,6 +119,9 @@ public class OutGoingCallActivity extends AppCompatActivity {
             data.addProperty("userImage", senderImage);
             data.addProperty(Constants.REMOTE_MSG_INVITER_TOKEN, senderToken);
 
+            meetingRoom = id + "_" + UUID.randomUUID().toString().substring(0,5);
+            data.addProperty(Constants.REMOTE_MSG_MEETING_ROOM, meetingRoom);
+
             JsonObject body = new JsonObject();
             body.add(Constants.REMOTE_MSG_DATA, data);
             body.addProperty(Constants.REMOTE_MSG_REGISTRATION_IDS, receiverToken);
@@ -119,6 +133,25 @@ public class OutGoingCallActivity extends AppCompatActivity {
         }
     }
 
+    private void cancelInvitation(String receiverToken) {
+        try {
+            JsonObject data = new JsonObject();
+            data.addProperty(Constants.REMOTE_MSG_TYPE, Constants.REMOTE_MSG_INVITATION_RESPONSE);
+            data.addProperty(Constants.REMOTE_MSG_INVITATION_RESPONSE, Constants.REMOTE_MSG_INVITATION_CANCELLED);
+            data.addProperty("userName", senderName);
+
+            JsonObject body = new JsonObject();
+            body.add(Constants.REMOTE_MSG_DATA, data);
+            body.addProperty(Constants.REMOTE_MSG_REGISTRATION_IDS, receiverToken);
+
+            sendRemoteMessage(body, Constants.REMOTE_MSG_INVITATION_RESPONSE);
+        } catch (Exception exception) {
+            showToast(exception.getMessage());
+            finish();
+        }
+    }
+
+
     private void sendRemoteMessage(JsonObject messageBody, String type) {
         Call<FirebaseMessagingCall> notificationResponseCall = FirebaseMessagingClient.getService().sendRemoteMessage(
                 Constants.getRemoteMsgHeaders(),
@@ -129,6 +162,9 @@ public class OutGoingCallActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                    if (type.equals(Constants.REMOTE_MSG_INVITATION)) {
                        showToast("Invitation sent successfully");
+                   } else if (type.equals(Constants.REMOTE_MSG_INVITATION_RESPONSE)) {
+                       showToast("Invitation Cancelled");
+                       finish();
                    }
                 } else {
                     showToast("Error :" + response.code() + response.errorBody());
@@ -142,6 +178,59 @@ public class OutGoingCallActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private BroadcastReceiver invitationResponseReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
+            if (type != null) {
+                if (type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
+                    JitsiMeetUserInfo mUserInfo = new JitsiMeetUserInfo();
+                    mUserInfo.setDisplayName(senderName);
+                    mUserInfo.setEmail(senderPhone);
+                    try {
+                        mUserInfo.setAvatar(new URL(senderImage));
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        JitsiMeetConferenceOptions.Builder options = new JitsiMeetConferenceOptions.Builder();
+                        options.setServerURL(new URL("https://meet.jit.si"));
+                        options.setUserInfo(mUserInfo);
+                        options.setRoom(meetingRoom);
+                        if (meetingType.equals("audio")) {
+                            options.setVideoMuted(true);
+                        }
+
+                        JitsiMeetActivity.launch(OutGoingCallActivity.this, options.build());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                } else if (type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)) {
+                    showToast("Invitation Rejected");
+                    finish();
+                }
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
+                invitationResponseReceiver,
+                new IntentFilter(Constants.REMOTE_MSG_INVITATION_RESPONSE)
+        );
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(
+                invitationResponseReceiver
+        );
     }
 
 }
