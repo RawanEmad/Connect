@@ -19,12 +19,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class IncomingCallActivity extends AppCompatActivity {
 
     private ImageView mBackButton;
-    private TextView fullNameTextView;
+    private TextView fullNameTextView, meetingTypeTextView;
     private CircleImageView profileImageView;
 
     private SessionManager sessionManager;
 
-    String id, fullName, phoneNo, image;
+    String id, fullName, phoneNo, image, userId, userName, userImage, meetingType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,13 @@ public class IncomingCallActivity extends AppCompatActivity {
         mBackButton = findViewById(R.id.contacts_back_btn);
         fullNameTextView = findViewById(R.id.contact_name_text_view);
         profileImageView = findViewById(R.id.contact_profile_image);
+        meetingTypeTextView = findViewById(R.id.incoming_call_text_view);
+
+        //Get data from intent
+        meetingType = getIntent().getStringExtra("meetingType");
+        userId = getIntent().getStringExtra("userId");
+        userName = getIntent().getStringExtra("userName");
+        userImage = getIntent().getStringExtra("userImage");
 
         sessionManager = new SessionManager(IncomingCallActivity.this, SessionManager.SESSION_USERSESSION);
         HashMap<String, String> usersDetails = sessionManager.getUserDetailsFromSession();
@@ -49,12 +56,18 @@ public class IncomingCallActivity extends AppCompatActivity {
     }
 
     private void displayUserData() {
-        fullNameTextView.setText(fullName);
+        fullNameTextView.setText(userName);
 
         //Adding Glide library to display images
         Glide.with(getApplicationContext())
-                .load(image)
+                .load(userImage)
                 .into(profileImageView);
+
+        if (meetingType.equals("audio")) {
+            meetingTypeTextView.setText("audio call");
+        } else if (meetingType.equals("video")) {
+            meetingTypeTextView.setText("video call");
+        }
     }
 
     private void callPreviousScreen() {

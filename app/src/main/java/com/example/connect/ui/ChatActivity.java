@@ -31,7 +31,7 @@ import com.devlomi.record_view.RecordView;
 import com.example.connect.R;
 import com.example.connect.adapters.ChatAdapter;
 import com.example.connect.firebase.network.FirebaseMessagingClient;
-import com.example.connect.firebase.network.NotificationResponse;
+import com.example.connect.firebase.network.FirebaseMessagingCall;
 import com.example.connect.models.ChatMessages;
 import com.example.connect.users.network.UsersApiClient;
 import com.example.connect.users.response.UserResponse;
@@ -179,6 +179,7 @@ public class ChatActivity extends AppCompatActivity {
                     finish();
                 }
             });
+            getReceiverToken();
         } else if (previousActivity.equals("contactProfile")) {
             mBackButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -191,17 +192,34 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    private void getReceiverToken() {
+        Call<UserResponse> userResponseCall = UsersApiClient.getService().getUser(phoneNo, UsersApiClient.API_KEY);
+        userResponseCall.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful()) {
+                    receiverToken = response.body().getUserData().getFcmToken();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Toast.makeText(ChatActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void showToast(String message) {
         Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void sendNotification(JsonObject messageBody) {
-        Call<NotificationResponse> notificationResponseCall = FirebaseMessagingClient.getService().sendRemoteMessage(
+        Call<FirebaseMessagingCall> notificationResponseCall = FirebaseMessagingClient.getService().sendRemoteMessage(
                 Constants.getRemoteMsgHeaders(),
                 messageBody);
-        notificationResponseCall.enqueue(new Callback<NotificationResponse>() {
+        notificationResponseCall.enqueue(new Callback<FirebaseMessagingCall>() {
             @Override
-            public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+            public void onResponse(Call<FirebaseMessagingCall> call, Response<FirebaseMessagingCall> response) {
                 if (response.isSuccessful()) {
                     try {
                         if (response.body() != null) {
@@ -216,14 +234,13 @@ public class ChatActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    showToast("Notification sent successfully");
                 } else {
                     showToast("Error :" + response.code() + response.errorBody());
                 }
             }
 
             @Override
-            public void onFailure(Call<NotificationResponse> call, Throwable t) {
+            public void onFailure(Call<FirebaseMessagingCall> call, Throwable t) {
                 showToast(t.getLocalizedMessage());
             }
         });
@@ -246,6 +263,7 @@ public class ChatActivity extends AppCompatActivity {
         HashMap<String, Object> message = new HashMap<>();
         message.put(Constants.KEY_SENDER_ID, senderId);
         message.put(Constants.KEY_RECEIVER_ID, receiverId);
+        message.put(Constants.KEY_RECEIVER_PHONE_NO, phoneNo);
         message.put(Constants.KEY_MESSAGE, inputMessage.getText().toString());
         message.put(Constants.KEY_TYPE, "text");
         message.put(Constants.KEY_TIMESTAMP, new Date());
@@ -446,6 +464,7 @@ public class ChatActivity extends AppCompatActivity {
                                 HashMap<String, Object> voiceMessage = new HashMap<>();
                                 voiceMessage.put(Constants.KEY_SENDER_ID, senderId);
                                 voiceMessage.put(Constants.KEY_RECEIVER_ID, receiverId);
+                                voiceMessage.put(Constants.KEY_RECEIVER_PHONE_NO, phoneNo);
                                 voiceMessage.put(Constants.KEY_MESSAGE, url);
                                 voiceMessage.put(Constants.KEY_TYPE, "recording");
                                 voiceMessage.put(Constants.KEY_TIMESTAMP, new Date());

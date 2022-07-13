@@ -96,8 +96,8 @@ public class ContactProfileActivity extends AppCompatActivity {
         audioCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //mUsersListeners.initiateAudioMeeting();
                 Intent intent = new Intent(ContactProfileActivity.this, OutGoingCallActivity.class);
+                intent.putExtra("meetingType", "audio");
                 startActivity(intent);
                 finish();
             }
@@ -109,6 +109,7 @@ public class ContactProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ContactProfileActivity.this, OutGoingCallActivity.class);
+                intent.putExtra("meetingType", "video");
                 startActivity(intent);
                 finish();
             }

@@ -4,7 +4,7 @@ import com.example.connect.models.ChatMessages;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NotificationResponse {
+public class FirebaseMessagingCall {
 
     @SerializedName("to")
     @Expose
@@ -14,7 +14,7 @@ public class NotificationResponse {
     @Expose
     private ChatMessages messageData;
 
-    public NotificationResponse(String receiverToken, ChatMessages messageData) {
+    public FirebaseMessagingCall(String receiverToken, ChatMessages messageData) {
         this.receiverToken = receiverToken;
         this.messageData = messageData;
     }

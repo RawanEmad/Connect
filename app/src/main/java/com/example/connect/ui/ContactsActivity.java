@@ -80,17 +80,12 @@ public class ContactsActivity extends AppCompatActivity {
             public void onResponse(Call<UserListResponse> call, Response<UserListResponse> response) {
                 if (response.isSuccessful()) {
                     List<UserModel> userListResponse = response.body().getUsersList();
-                    //mUserModelList = userListResponse.getUsersList();
-                    //mUserModelList = new ArrayList<>(Arrays.asList(userListResponse.getUsersList()));
 
                     for (int i=0; i<userListResponse.size(); i++) {
                         UsersAdapter usersAdapter = new UsersAdapter((ArrayList<UserModel>) userListResponse);
                         mRecyclerView.setAdapter(usersAdapter);
                         usersAdapter.notifyDataSetChanged();
                     }
-                    //putDataIntoRecyclerView(mUserModelList);
-
-                    //Toast.makeText(ContactsActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
 
                     int length = Integer.parseInt(response.body().getLength()) -1;
                     mContactsLength.setText("My Contacts (" + length + ")");
