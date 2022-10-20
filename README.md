@@ -2,11 +2,6 @@
 Social Communication System that offers Secure, Simple and Scalable Audio & Video Conferences and Chat features.
 <br></br>
 
-## Screenshots
-<br></br>
-
-
----
 
 ## Main Features
 
